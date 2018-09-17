@@ -60,8 +60,8 @@ fun main(args: Array<String>) {
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int
 {
-    val sum = seconds + minutes * 60 + hours * 3600;
-    return sum;
+    val sum = seconds + minutes * 60 + hours * 3600
+    return sum
 }
 
 /**
@@ -73,8 +73,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double
 {
-    val length = (vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445) / 100;
-    return length;
+    val length = (vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445) / 100
+    return length
 }
 
 /**
@@ -85,9 +85,9 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double
 {
-    val deg = (sec + min * 60 + grad * 3600) / 3600;
-    val rad = (PI / 180) * deg;
-    return rad;
+    val deg = (sec + min * 60.0 + grad * 3600) / 3600
+    val rad = (PI / 180) * deg
+    return rad
 }
 
 /**
@@ -98,8 +98,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double
 {
-    val distance = sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
-    return distance;
+    val distance = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+    return distance
 }
 
 /**
@@ -110,7 +110,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double
  */
 fun thirdDigit(number: Int): Int
 {
-    return (number / 100) % 10;
+    return (number / 100) % 10
 }
 
 /**
@@ -122,8 +122,8 @@ fun thirdDigit(number: Int): Int
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int
 {
-    val time: Int = (abs(hoursDepart-hoursArrive)* 60 - (minutesDepart-minutesArrive));
-    return time;
+    val time: Int = (abs(hoursDepart - hoursArrive) * 60 - (minutesDepart - minutesArrive))
+    return time
 }
 
 /**
@@ -135,8 +135,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double
 {
-    val perYear = 1 + percent / 100.0;
-    return ((initial * perYear) * perYear) * perYear;
+    val perYear = 1 + percent / 100.0
+    return ((initial * perYear) * perYear) * perYear
 }
 
 /**
