@@ -46,7 +46,7 @@ fun isNumberHappy(number: Int): Boolean
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
 {
-    if (x1 == x2 || y1 == y2 ||(abs((1.0 - y1) - x1) == abs(y2 - (x2 - 1.0))))
+    if (x1 == x2 || y1 == y2 ||(abs((1 - y1) - x1) == abs(y2 - (x2 - 1))))
     {
         return true
     }
@@ -65,9 +65,9 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
  */
 fun daysInMonth(month: Int, year: Int): Int
 {
-    if (year % 4 == 0)
+    if (month == 2)
     {
-        if (year % 100 != 0)
+        if ((year % 4 == 0) && (year % 100 != 0))
         {
             return when (month)
             {
@@ -93,12 +93,13 @@ fun daysInMonth(month: Int, year: Int): Int
             {
                 return when (month)
                 {
-                    1,3, 5, 7, 8, 10, 12 -> 31
+                    1, 3, 5, 7, 8, 10, 12 -> 31
                     4, 6, 9, 11 -> 30
                     2 -> 28
                     else -> 0
                 }
             }
+
         }
     }
     else
@@ -107,10 +108,12 @@ fun daysInMonth(month: Int, year: Int): Int
         {
             1, 3, 5, 7, 8, 10, 12 -> 31
             4, 6, 9, 11 -> 30
-            2 -> 28
             else -> 0
         }
     }
+
+
+
 }
 
 /**
