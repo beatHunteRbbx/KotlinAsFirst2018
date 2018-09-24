@@ -73,7 +73,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double
 {
-    val length = (vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445) / 100
+    val length = (vershoks + arshins * 16 + sagenes * 48) * 4.445 / 100
     return length
 }
 
@@ -122,7 +122,7 @@ fun thirdDigit(number: Int): Int
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int
 {
-    val time: Int = (abs(hoursDepart - hoursArrive) * 60 - (minutesDepart - minutesArrive))
+    val time = ((hoursArrive - hoursDepart) * 60 - (minutesDepart - minutesArrive))
     return time
 }
 

@@ -156,7 +156,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int
 {
-    if ( (abs((1.0 - bishopX) - kingX) == abs(bishopY - (kingY - 1.0))) && (kingX == rookX || kingY == rookY) )
+    if ( (abs((1 - bishopX) - kingX) == abs(bishopY - (kingY - 1))) && (kingX == rookX || kingY == rookY) )
     {
         return 3
     }
@@ -164,7 +164,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     {
         return 1
     }
-    else if (abs((1.0 - bishopX) - kingX) == abs(bishopY - (kingY - 1.0)))
+    else if (abs((bishopX - 1) - kingX) == abs(bishopY - (kingY - 1)))
     {
         return 2
     }
@@ -184,41 +184,43 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int
 {
-    var value: Int = 10
+
     if ((a + b > c) && (a + c > b) && (b + c > a))
     {
+
         if (a >= b && a >= c) {
             if (b * b + c * c > a * a) {
-                value = 0
+                return 0
             } else if (b * b + c * c == a * a) {
-                value = 1
-            } else if (b * b + c * c < a * a) {
-                value = 2
+                return 1
+            } else {
+                return 2
             }
-        } else if (b >= a && b >= c) {
+        }
+        else if (b >= a && b >= c) {
             if (a * a + c * c > b * b) {
-                value = 0
+                return 0
             } else if (a * a + c * c == b * b) {
-                value = 1
-            } else if (a * a + c * c < b * b) {
-                value = 2
+                return 1
+            } else {
+                return 2
             }
-        } else if (c >= b && c >= a) {
+        }
+        else {
             if (b * b + a * a > c * c) {
-                value = 0
+                return 0
             } else if (b * b + a * a == c * c) {
-                value = 1
-            } else if (b * b + a * a < c * c) {
-                value = 2
+                return 1
+            } else
+            {
+                return 2
             }
         }
     }
     else
     {
-        value = -1
+        return -1
     }
-    return value
-
 }
 
 /**
@@ -231,28 +233,32 @@ fun triangleKind(a: Double, b: Double, c: Double): Int
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
 {
-    var length: Int = -1
-    if (b > d && a < c)
+    if (b >= d && a <= c)
     {
-        length =  abs(d - c)
+        return abs(d - c)
     }
-    else if (b > c && c > a)
+    else if (b >= c && c >= a)
     {
-        length = abs(c - b)
+        return abs(c - b)
     }
-    else if (d > b && c < a)
+    else if (d >= b && c <= a)
     {
-        length = abs(b - a)
+        return abs(b - a)
     }
-    else if (d < b && d > a)
+    else if (d <= b && d >= a)
     {
-        length = abs(d - a)
+        return abs(d - a)
+    }
+    else if ( a >= c && d >= b)
+    {
+        return abs(b - a)
     }
     else if (a == c || b==c || a==d || b==d)
     {
-        length = 0
+        return 0
     }
-
-
-    return length
+    else
+    {
+        return -1
+    }
 }
