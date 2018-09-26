@@ -66,7 +66,26 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int
+{
+    var numb = n
+    var counter = 0
+
+    if (numb == 0)
+    {
+        counter = 1
+    }
+    else
+    {
+        while (numb > 0)
+        {
+            numb /= 10
+            counter++
+        }
+    }
+
+    return counter
+}
 
 /**
  * Простая
@@ -82,21 +101,51 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int
+{
+    var k = 0
+    do
+    {
+        k++
+    } while ((k % m != 0) && (k % n != 0))
+
+    return k
+}
+
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int
+{
+    var div = 1
+
+    do
+    {
+      div++
+    } while (n % div != 0)
+
+    return div
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int
+{
+    var div = n
+
+    do
+    {
+        div--
+    } while (n % div != 0)
+
+    return div
+}
 
 /**
  * Простая
@@ -105,7 +154,39 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean
+{
+    var counter = 0
+    if (m > n)
+    {
+        for (i in 1..m)
+        {
+            if (n % i == 0 && m % i == 0)
+            {
+                counter++
+            }
+        }
+    }
+    else if (n > m)
+    {
+        for (i in 1..n)
+        {
+            if (n % i == 0 && m % i == 0)
+            {
+                counter++
+            }
+        }
+    }
+
+    if (counter == 1)
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+}
 
 /**
  * Простая
@@ -114,7 +195,22 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean
+{
+    for (i in m..n)
+    {
+        if (i*i >= m && i*i <=n)
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+
+    return true
+}
 
 /**
  * Средняя
