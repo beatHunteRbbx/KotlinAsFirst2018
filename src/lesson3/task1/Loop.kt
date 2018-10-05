@@ -1,7 +1,13 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import java.lang.Math.pow
 import kotlin.math.sqrt
+import kotlin.math.floor
+import lesson1.task1.sqr
+import kotlin.math.abs
+import kotlin.math.*
+
 
 /**
  * Пример
@@ -93,7 +99,27 @@ fun digitNumber(n: Int): Int
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int
+{
+    var numb1 = 1
+    var numb2 = 1
+    var lastNumbInRow = 0
+    if (n < 3)
+    {
+        return 1
+    }
+    else
+    {
+        for (i in 3..n)
+        {
+            lastNumbInRow = numb1 + numb2
+            numb1 = numb2
+            numb2 = lastNumbInRow
+
+        }
+    }
+    return lastNumbInRow
+}
 
 /**
  * Простая
@@ -103,11 +129,11 @@ fun fib(n: Int): Int = TODO()
  */
 fun lcm(m: Int, n: Int): Int
 {
-    var k = 0
-    do
+    var k = 1
+    while ((k % m != 0) || (k % n != 0))
     {
         k++
-    } while ((k % m != 0) && (k % n != 0))
+    }
 
     return k
 }
@@ -197,19 +223,14 @@ fun isCoPrime(m: Int, n: Int): Boolean
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean
 {
-    for (i in m..n)
+    if (sqrt(m * 1.0) <= floor(sqrt(n * 1.0)))
     {
-        if (i*i >= m && i*i <=n)
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return true
     }
-
-    return true
+    else
+    {
+        return false
+    }
 }
 
 /**
@@ -228,7 +249,24 @@ fun squareBetweenExists(m: Int, n: Int): Boolean
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int
+{
+    var numb = x
+    var steps = 0
+    while ( numb != 1)
+    {
+        if (numb % 2 == 0)
+        {
+            numb /=2
+        }
+        else
+        {
+            numb = 3 * numb + 1
+        }
+        steps++
+    }
+    return steps
+}
 
 /**
  * Средняя
@@ -237,7 +275,23 @@ fun collatzSteps(x: Int): Int = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double
+ {
+     var func_x = x
+     var degree = 1.0
+     var sum = 0.0
+
+
+     var member = pow(-1.0, degree) * (pow(func_x, 2 * degree + 1) / (factorial((2 * x + 1).toInt())))
+     while(member > abs(eps))
+     {
+         member = pow(-1.0, degree) * (pow(func_x, 2 * degree + 1) / (factorial((2 * x + 1).toInt())))
+         sum += member
+         degree++
+     }
+
+     return sum
+}
 
 /**
  * Средняя
@@ -255,7 +309,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int
+{
+    var number = n
+    var numbCounter = 0
+    var finalNumber: Double = 0.0
+    while (number > 0)
+    {
+        number /= 10
+        numbCounter++
+    }
+
+    number = n
+    for(i in 1..numbCounter)
+    {
+        finalNumber = finalNumber + ((number % 10) * pow(10.0, (numbCounter - i) * 1.0))
+        number /= 10
+    }
+
+    return finalNumber.toInt()
+}
 
 /**
  * Средняя
@@ -266,7 +339,40 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var number = n
+    var numbCounter = 0
+    var numbersArray = arrayOfNulls<Int>(100)
+    while (number > 0) {
+        number /= 10
+        numbCounter++
+    }
+
+    number = n
+    for (i in 0..numbCounter) {
+        numbersArray[i] = number % 10
+        number /= 10
+    }
+
+    var errors = 0
+    for (i in 0..(numbCounter / 2))
+    {
+        if (numbersArray[i] != numbersArray[numbCounter - 1 - i])
+        {
+            errors++
+        }
+    }
+
+    if (errors == 0)
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+
+}
 
 /**
  * Средняя
@@ -276,7 +382,29 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean
+{
+    var numb = n
+    var checkNumb = numb % 10;
+    var falseCounter = 0
+    while (numb > 0)
+    {
+        if (numb % 10 != checkNumb)
+        {
+            falseCounter++
+        }
+        numb /= 10
+    }
+
+    if (falseCounter != 0)
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+}
 
 /**
  * Сложная
@@ -287,7 +415,27 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int
+{
+    var numbersInRow = 0
+    var numb = 1
+    var numbSqr = 0
+
+    while (numbersInRow < n)
+    {
+        numbersInRow += digitNumber(sqr(numb))
+        numb++
+    }
+    numbSqr = sqr(numb - 1)
+    var neededLength = numbersInRow - n
+    for (i in 1..neededLength)
+    {
+        numbSqr /= 10
+    }
+
+    return numbSqr % 10
+}
+
 
 /**
  * Сложная
@@ -298,4 +446,26 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int
+{
+    var numbersInRow = 0
+    var numbFib = 0
+    var numb = 0
+    while(numbersInRow < n)
+    {
+        numb++
+        numbersInRow += digitNumber(fib(numb))
+
+    }
+    numbFib = fib(numb)
+
+    while(numbersInRow != n)
+    {
+        numbFib /= 10
+        numbersInRow--
+    }
+
+    return numbFib % 10
+}
+
+
