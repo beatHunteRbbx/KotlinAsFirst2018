@@ -88,27 +88,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val halfDistance = (v1 * t1) + (v2 * t2) + (v3 * t3) / 2.0
     val s1 = v1 * t1
     val s2 = v2 * t2
-    if (halfDistance == s1)
-    {
-        return t1
-    }
-    else if (halfDistance == s1 + s2)
-    {
-        return t1 + t2
-    }
-    else if (halfDistance < s1)
-    {
-        return (s1 - (s1 - halfDistance)) / v1
-    }
-    else if (halfDistance < s1 + s2)
-    {
-        return t1 + ((halfDistance - s1) / v2)
-    }
-    else
-    {
-        return t1 + t2 + ((halfDistance - (s1 + s2)) / v3)
-    }
 
+     when
+     {
+         halfDistance == s1 -> return t1
+         halfDistance == s1 + s2 -> return t1 + t2
+         halfDistance < s1 -> return (s1 - (s1 - halfDistance)) / v1
+         halfDistance < s1 + s2 -> return t1 + ((halfDistance - s1) / v2)
+         else -> return t1 + t2 + ((halfDistance - (s1 + s2)) / v3)
+     }
 }
 
 /**
@@ -124,21 +112,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int
 {
-    if ((kingX == rookX1 && kingY == rookY2) || (kingX == rookX2 && kingY == rookY1))
+    when
     {
-        return 3
-    }
-    else if (kingX == rookX1 || kingY == rookY1)
-        {
-        return 1
-    }
-    else if (kingX == rookX2 || kingY == rookY2)
-    {
-        return 2
-    }
-    else
-    {
-        return 0
+        (kingX == rookX1 && kingY == rookY2) || (kingX == rookX2 && kingY == rookY1) -> return 3
+        kingX == rookX1 || kingY == rookY1 -> return 1
+        kingX == rookX2 || kingY == rookY2 -> return 2
+        else -> return 0
     }
 }
 
@@ -156,21 +135,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int
 {
-    if ( (abs((1 - bishopX) - kingX) == abs(bishopY - (kingY - 1))) && (kingX == rookX || kingY == rookY) )
+    when
     {
-        return 3
-    }
-    else if (kingX == rookX || kingY == rookY)
-    {
-        return 1
-    }
-    else if (abs((bishopX - 1) - kingX) == abs(bishopY - (kingY - 1)))
-    {
-        return 2
-    }
-    else
-    {
-        return 0
+        (abs((1 - bishopX) - kingX) == abs(bishopY - (kingY - 1))) &&
+                (kingX == rookX || kingY == rookY) -> return 3
+        kingX == rookX || kingY == rookY -> return 1
+        abs((bishopX - 1) - kingX) == abs(bishopY - (kingY - 1)) -> return 2
+        else -> return 0
     }
 }
 
