@@ -27,14 +27,7 @@ fun isNumberHappy(number: Int): Boolean
     val sum12 = numbHalf1 % 10 + numbHalf1 / 10
     val sum34 = numbHalf2 % 10 + numbHalf2 / 10
 
-    if (sum12 == sum34)
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
+    return sum12 == sum34
 }
 
 /**
@@ -65,55 +58,13 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
  */
 fun daysInMonth(month: Int, year: Int): Int
 {
-    if (month == 2)
+    return when (month)
     {
-        if ((year % 4 == 0) && (year % 100 != 0))
-        {
-            return when (month)
-            {
-                1, 3, 5, 7, 8, 10, 12 -> 31
-                4, 6, 9, 11 -> 30
-                2 -> 29
-                else -> 0
-            }
-        }
-        else
-        {
-            if (year % 400 == 0)
-            {
-                return when (month)
-                {
-                    1, 3, 5, 7, 8, 10, 12 -> 31
-                    4, 6, 9, 11 -> 30
-                    2 -> 29
-                    else -> 0
-                }
-            }
-            else
-            {
-                return when (month)
-                {
-                    1, 3, 5, 7, 8, 10, 12 -> 31
-                    4, 6, 9, 11 -> 30
-                    2 -> 28
-                    else -> 0
-                }
-            }
-
-        }
+        1, 3, 5, 7, 8, 10, 12 -> 31
+        4, 6, 9, 11 -> 30
+        else -> if ((month == 2 && year % 4 == 0 && year % 100 != 0) ||
+                    (month == 2 && year % 400 == 0)) 29 else 28
     }
-    else
-    {
-        return when (month)
-        {
-            1, 3, 5, 7, 8, 10, 12 -> 31
-            4, 6, 9, 11 -> 30
-            else -> 0
-        }
-    }
-
-
-
 }
 
 /**
@@ -126,14 +77,7 @@ fun daysInMonth(month: Int, year: Int): Int
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean
 {
-    if (sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2)
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
+    return if (sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2) true else false
 
 }
 
@@ -148,14 +92,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean
 {
-    if (    (b <= r && c <= s) || (b <= s && c <= r) ||
-            (a <= r && b <= s) || (a <= s && b <= r) ||
-            (a <= r && c <= s) || (a <= s && c <= r)    )
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
+    return if ( (b <= r && c <= s) || (b <= s && c <= r) ||
+                (a <= r && b <= s) || (a <= s && b <= r) ||
+                (a <= r && c <= s) || (a <= s && c <= r)    ) true else false
 }
