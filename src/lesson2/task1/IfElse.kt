@@ -85,17 +85,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double
 {
-    val halfDistance = (v1 * t1) + (v2 * t2) + (v3 * t3) / 2.0
+    val halfDistance = ((v1 * t1) + (v2 * t2) + (v3 * t3)) / 2.0
     val s1 = v1 * t1
     val s2 = v2 * t2
 
-     when
+     return when
      {
-         halfDistance == s1 -> return t1
-         halfDistance == s1 + s2 -> return t1 + t2
-         halfDistance < s1 -> return (s1 - (s1 - halfDistance)) / v1
-         halfDistance < s1 + s2 -> return t1 + ((halfDistance - s1) / v2)
-         else -> return t1 + t2 + ((halfDistance - (s1 + s2)) / v3)
+         halfDistance == s1 -> t1
+         halfDistance == s1 + s2 -> t1 + t2
+         halfDistance < s1 -> (s1 - (s1 - halfDistance)) / v1
+         halfDistance < s1 + s2 -> t1 + ((halfDistance - s1) / v2)
+         else -> t1 + t2 + ((halfDistance - (s1 + s2)) / v3)
      }
 }
 
@@ -137,10 +137,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 {
     when
     {
-        (abs((1 - bishopX) - kingX) == abs(bishopY - (kingY - 1))) &&
-                (kingX == rookX || kingY == rookY) -> return 3
+        ((abs(bishopX - kingX) == abs(bishopY - kingY)) &&
+                (kingX == rookX || kingY == rookY)) -> return 3
         kingX == rookX || kingY == rookY -> return 1
-        abs((bishopX - 1) - kingX) == abs(bishopY - (kingY - 1)) -> return 2
+        abs(bishopX - kingX) == abs(bishopY - kingY) -> return 2
         else -> return 0
     }
 }
@@ -156,41 +156,46 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int
 {
 
-    if ((a + b > c) && (a + c > b) && (b + c > a))
+    return if ((a + b > c) && (a + c > b) && (b + c > a))
     {
 
-        if (a >= b && a >= c) {
-            if (b * b + c * c > a * a) {
-                return 0
+        if (maxOf(a,b,c) == a)
+        {
+            if (b * b + c * c > a * a)
+            {
+                0
             } else if (b * b + c * c == a * a) {
-                return 1
+                1
             } else {
-                return 2
+                2
             }
         }
-        else if (b >= a && b >= c) {
+        else if (maxOf(a,b,c) == b) {
             if (a * a + c * c > b * b) {
-                return 0
+                 0
             } else if (a * a + c * c == b * b) {
-                return 1
+                 1
             } else {
-                return 2
+                 2
             }
         }
-        else {
-            if (b * b + a * a > c * c) {
-                return 0
-            } else if (b * b + a * a == c * c) {
-                return 1
+        else
+        {
+            if (b * b + a * a > c * c)
+            {
+                 0
+            } else if (b * b + a * a == c * c)
+            {
+                 1
             } else
             {
-                return 2
+                 2
             }
         }
     }
     else
     {
-        return -1
+         -1
     }
 }
 
@@ -204,32 +209,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
 {
-    if (b >= d && a <= c)
+    return when
     {
-        return abs(d - c)
-    }
-    else if (b >= c && c >= a)
-    {
-        return abs(c - b)
-    }
-    else if (d >= b && c <= a)
-    {
-        return abs(b - a)
-    }
-    else if (d <= b && d >= a)
-    {
-        return abs(d - a)
-    }
-    else if ( a >= c && d >= b)
-    {
-        return abs(b - a)
-    }
-    else if (a == c || b==c || a==d || b==d)
-    {
-        return 0
-    }
-    else
-    {
-        return -1
+        b >= d && a <= c -> abs(d - c)
+        b >= c && c >= a -> abs(c - b)
+        d >= b && c <= a -> abs(b - a)
+        d <= b && d >= a -> abs(d - a)
+        a >= c && d >= b -> abs(b - a)
+        a == c || b==c || a==d || b==d -> 0
+        else -> -1
     }
 }
