@@ -39,7 +39,7 @@ fun isNumberHappy(number: Int): Boolean
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
 {
-    if (x1 == x2 || y1 == y2 ||(abs((1 - y1) - x1) == abs(y2 - (x2 - 1))))
+    if (x1 == x2 || y1 == y2 ||(abs(x1 - y1)) == abs(y2 - x2))
     {
         return true
     }
@@ -77,8 +77,7 @@ fun daysInMonth(month: Int, year: Int): Int
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean
 {
-    return if (sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2) true else false
-
+    return (sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2)
 }
 
 /**
@@ -92,7 +91,11 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean
 {
-    return if ( (b <= r && c <= s) || (b <= s && c <= r) ||
-                (a <= r && b <= s) || (a <= s && b <= r) ||
-                (a <= r && c <= s) || (a <= s && c <= r)    ) true else false
+    var minBrick = minOf(a,b,c)
+    var maxBrick = maxOf(a,b,c)
+    var minHole = minOf(r,s)
+    var maxHole = maxOf(r,s)
+    var middleBrick = (a + b + c) - (minBrick + maxBrick)
+
+    return if ((minBrick <= minHole) && (middleBrick <= maxHole)) true else false
 }

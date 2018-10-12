@@ -89,7 +89,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = v1 * t1
     val s2 = v2 * t2
 
-     return when
+    return when
      {
          halfDistance == s1 -> t1
          halfDistance == s1 + s2 -> t1 + t2
@@ -112,12 +112,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int
 {
-    when
+    return when
     {
-        (kingX == rookX1 && kingY == rookY2) || (kingX == rookX2 && kingY == rookY1) -> return 3
-        kingX == rookX1 || kingY == rookY1 -> return 1
-        kingX == rookX2 || kingY == rookY2 -> return 2
-        else -> return 0
+        (kingX == rookX1 && kingY == rookY2) || (kingX == rookX2 && kingY == rookY1) -> 3
+        kingX == rookX1 || kingY == rookY1 -> 1
+        kingX == rookX2 || kingY == rookY2 -> 2
+        else -> 0
     }
 }
 
@@ -164,18 +164,24 @@ fun triangleKind(a: Double, b: Double, c: Double): Int
             if (b * b + c * c > a * a)
             {
                 0
-            } else if (b * b + c * c == a * a) {
+            } else if (b * b + c * c == a * a)
+            {
                 1
-            } else {
+            } else
+            {
                 2
             }
         }
-        else if (maxOf(a,b,c) == b) {
-            if (a * a + c * c > b * b) {
+        else if (maxOf(a,b,c) == b)
+        {
+            if (a * a + c * c > b * b)
+            {
                  0
-            } else if (a * a + c * c == b * b) {
+            } else if (a * a + c * c == b * b)
+            {
                  1
-            } else {
+            } else
+            {
                  2
             }
         }
