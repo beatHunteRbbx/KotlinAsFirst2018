@@ -5,6 +5,8 @@ import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
 import kotlin.math.abs
+import lesson1.task1.sqr
+import kotlin.math.min
 
 /**
  * Пример
@@ -90,13 +92,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = v2 * t2
 
     return when
-     {
+    {
          halfDistance == s1 -> t1
          halfDistance == s1 + s2 -> t1 + t2
          halfDistance < s1 -> (s1 - (s1 - halfDistance)) / v1
          halfDistance < s1 + s2 -> t1 + ((halfDistance - s1) / v2)
          else -> t1 + t2 + ((halfDistance - (s1 + s2)) / v3)
-     }
+    }
 }
 
 /**
@@ -135,14 +137,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int
 {
-    when
-    {
+   return when
+   {
         ((abs(bishopX - kingX) == abs(bishopY - kingY)) &&
-                (kingX == rookX || kingY == rookY)) -> return 3
-        kingX == rookX || kingY == rookY -> return 1
-        abs(bishopX - kingX) == abs(bishopY - kingY) -> return 2
-        else -> return 0
-    }
+                (kingX == rookX || kingY == rookY)) -> 3
+        kingX == rookX || kingY == rookY -> 1
+        abs(bishopX - kingX) == abs(bishopY - kingY) -> 2
+        else -> 0
+   }
 }
 
 /**
@@ -155,53 +157,27 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int
 {
-
+    var max = maxOf(a, b, c)
+    var min = minOf(a, b, c)
+    var middle = (a + b + c) - (max + min)
     return if ((a + b > c) && (a + c > b) && (b + c > a))
     {
-
-        if (maxOf(a,b,c) == a)
+        if (sqr(min) + sqr(middle) > sqr(max))
         {
-            if (b * b + c * c > a * a)
-            {
-                0
-            } else if (b * b + c * c == a * a)
-            {
-                1
-            } else
-            {
-                2
-            }
+            0
         }
-        else if (maxOf(a,b,c) == b)
+        else if (sqr(min) + sqr(middle) == sqr(max))
         {
-            if (a * a + c * c > b * b)
-            {
-                 0
-            } else if (a * a + c * c == b * b)
-            {
-                 1
-            } else
-            {
-                 2
-            }
+            1
         }
         else
         {
-            if (b * b + a * a > c * c)
-            {
-                 0
-            } else if (b * b + a * a == c * c)
-            {
-                 1
-            } else
-            {
-                 2
-            }
+            2
         }
     }
     else
     {
-         -1
+        -1
     }
 }
 
@@ -217,12 +193,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
 {
     return when
     {
-        b >= d && a <= c -> abs(d - c)
-        b >= c && c >= a -> abs(c - b)
-        d >= b && c <= a -> abs(b - a)
-        d <= b && d >= a -> abs(d - a)
-        a >= c && d >= b -> abs(b - a)
-        a == c || b==c || a==d || b==d -> 0
+        min(b,d) - max(a,c) >= 0 -> min(b,d) - max(a,c)
         else -> -1
     }
 }

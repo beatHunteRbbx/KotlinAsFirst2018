@@ -129,6 +129,23 @@ fun fib(n: Int): Int
  */
 fun lcm(m: Int, n: Int): Int
 {
+    /*
+    var max = maxOf(m,n)
+    var min = minOf(m,n)
+    var a = m
+    var b = n
+    if (a % b == 0) return max
+    else
+    {
+
+        while (r != 0) {
+
+            r = b % r
+        }
+    }
+
+    return b
+    */
     var k = 1
     while ((k % m != 0) || (k % n != 0))
     {
@@ -163,14 +180,7 @@ fun minDivisor(n: Int): Int
  */
 fun maxDivisor(n: Int): Int
 {
-    var div = n
-
-    do
-    {
-        div--
-    } while (n % div != 0)
-
-    return div
+    return n / minDivisor(n)
 }
 
 /**
@@ -183,35 +193,15 @@ fun maxDivisor(n: Int): Int
 fun isCoPrime(m: Int, n: Int): Boolean
 {
     var counter = 0
-    if (m > n)
-    {
-        for (i in 1..m)
-        {
-            if (n % i == 0 && m % i == 0)
-            {
-                counter++
-            }
-        }
-    }
-    else if (n > m)
-    {
-        for (i in 1..n)
-        {
-            if (n % i == 0 && m % i == 0)
-            {
-                counter++
-            }
-        }
-    }
 
-    if (counter == 1)
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
+        for (i in 1..maxOf(n,m))
+        {
+            if (n % i == 0 && m % i == 0)
+            {
+                counter++
+            }
+        }
+    return if (counter == 1) true else false
 }
 
 /**
@@ -223,14 +213,7 @@ fun isCoPrime(m: Int, n: Int): Boolean
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean
 {
-    if (sqrt(m * 1.0) <= floor(sqrt(n * 1.0)))
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
+   return if (sqrt(m.toDouble())  <= floor(sqrt(n.toDouble()))) true else false
 }
 
 /**
@@ -312,18 +295,13 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int
 {
     var number = n
-    var numbCounter = 0
-    var finalNumber: Double = 0.0
-    while (number > 0)
-    {
-        number /= 10
-        numbCounter++
-    }
+    var numbCounter = digitNumber(n)     //считается количество цифр в числе
+    var finalNumber = 0.0
 
     number = n
     for(i in 1..numbCounter)
     {
-        finalNumber = finalNumber + ((number % 10) * pow(10.0, (numbCounter - i) * 1.0))
+        finalNumber = finalNumber * 10 + number % 10
         number /= 10
     }
 
@@ -339,39 +317,9 @@ fun revert(n: Int): Int
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    var number = n
-    var numbCounter = 0
-    var numbersArray = arrayOfNulls<Int>(100)
-    while (number > 0) {
-        number /= 10
-        numbCounter++
-    }
-
-    number = n
-    for (i in 0..numbCounter) {
-        numbersArray[i] = number % 10
-        number /= 10
-    }
-
-    var errors = 0
-    for (i in 0..(numbCounter / 2))
-    {
-        if (numbersArray[i] != numbersArray[numbCounter - 1 - i])
-        {
-            errors++
-        }
-    }
-
-    if (errors == 0)
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
-
+fun isPalindrome(n: Int): Boolean
+{
+    return if (n == revert(n)) true else false
 }
 
 /**
@@ -385,7 +333,7 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean
 {
     var numb = n
-    var checkNumb = numb % 10;
+    val checkNumb = numb % 10
     var falseCounter = 0
     while (numb > 0)
     {
@@ -396,14 +344,7 @@ fun hasDifferentDigits(n: Int): Boolean
         numb /= 10
     }
 
-    if (falseCounter != 0)
-    {
-        return true
-    }
-    else
-    {
-        return false
-    }
+    return if (falseCounter != 0) true else false
 }
 
 /**
