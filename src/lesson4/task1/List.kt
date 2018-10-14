@@ -8,7 +8,44 @@ import java.lang.Math.pow
 import lesson3.task1.isPrime
 import java.lang.Math.toIntExact
 
+fun digitToLetter(n: String): Int
+{
+    var list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
+            "s", "t", "u", "v", "w", "x", "y", "z")
+    var answer = 0
+    for (i in 0 until list.size)
+    {
+        if (n == list[i])
+        {
+            answer = 10 + i
+            break
+        }
+    }
+    return answer
+}
 
+fun digitToRoman(n: String): String
+{
+    return when(n)
+    {
+        "1" -> "I"
+        "2" -> "II"
+        "3" -> "III"
+        "4" -> "IV"
+        "5" -> "V"
+        "9" -> "IX"
+        "10" -> "X"
+        "40" -> "XL"
+        "50" -> "L"
+        "90" -> "XC"
+        "100" -> "C"
+        "400" -> "CD"
+        "500" -> "D"
+        "900" -> "CM"
+        "1000" -> "M"
+        else -> "0"
+    }
+}
 /**
  * Пример
  *
@@ -296,7 +333,11 @@ fun factorize(n: Int): List<Int>
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String
+{
+     var list = factorize(n)
+    return list.joinToString(separator = "*")
+}
 
 /**
  * Средняя
@@ -329,6 +370,7 @@ fun convert(n: Int, base: Int): List<Int>
  */
 fun convertToString(n: Int, base: Int): String = TODO()
 
+
 /**
  * Средняя
  *
@@ -336,7 +378,17 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+ fun decimal(digits: List<Int>, base: Int): Int
+{
+    var answer = 0.0
+    var degree = 0.0
+    for (i in digits.size - 1 downTo 0 )
+    {
+        answer += digits[i] * pow(base.toDouble(), degree)
+        degree++
+    }
+    return answer.toInt()
+}
 
 /**
  * Сложная
@@ -347,7 +399,24 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int
+{
+    var answer = 0.0
+    var digit = 0
+    var degree = 0.0
+    for (i in str.length - 1 downTo 0)
+    {
+        when (str[i].toString())
+        {
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
+            "s", "t", "u", "v", "w", "x", "y", "z" -> digit = digitToLetter(str[i].toString())
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" -> digit = (str[i].toString()).toInt()
+        }
+        answer += digit * pow(base.toDouble(), degree)
+        degree++
+    }
+    return answer.toInt()
+}
 
 /**
  * Сложная
@@ -358,6 +427,14 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String = TODO()
+/*{
+    var digits = n.toString()
+    var answer: String
+    for (i in digits.length - 1 downTo 0)
+    {
+        answer +=
+    }
+}*/
 
 /**
  * Очень сложная
