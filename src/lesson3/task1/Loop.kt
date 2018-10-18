@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
-import java.lang.Math.pow
 import kotlin.math.sqrt
 import kotlin.math.floor
 import lesson1.task1.sqr
@@ -83,7 +82,7 @@ fun digitNumber(n: Int): Int
     }
     else
     {
-        while (numb > 0)
+        while (numb != 0)
         {
             numb /= 10
             counter++
@@ -129,23 +128,6 @@ fun fib(n: Int): Int
  */
 fun lcm(m: Int, n: Int): Int
 {
-    /*
-    var max = maxOf(m,n)
-    var min = minOf(m,n)
-    var a = m
-    var b = n
-    if (a % b == 0) return max
-    else
-    {
-
-        while (r != 0) {
-
-            r = b % r
-        }
-    }
-
-    return b
-    */
     var k = 1
     while ((k % m != 0) || (k % n != 0))
     {
@@ -190,18 +172,14 @@ fun maxDivisor(n: Int): Int
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean
-{
+fun isCoPrime(m: Int, n: Int): Boolean {
     var counter = 0
-
-        for (i in 1..maxOf(n,m))
-        {
-            if (n % i == 0 && m % i == 0)
-            {
-                counter++
-            }
+    for (i in 1..maxOf(n, m)) {
+        if (n % i == 0 && m % i == 0) {
+            counter++
         }
-    return if (counter == 1) true else false
+    }
+    return (counter == 1)
 }
 
 /**
@@ -213,7 +191,7 @@ fun isCoPrime(m: Int, n: Int): Boolean
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean
 {
-   return if (sqrt(m.toDouble())  <= floor(sqrt(n.toDouble()))) true else false
+   return (sqrt(m.toDouble())  <= floor(sqrt(n.toDouble())))
 }
 
 /**
@@ -260,19 +238,16 @@ fun collatzSteps(x: Int): Int
  */
 fun sin(x: Double, eps: Double): Double
  {
-     var func_x = x
-     var degree = 1.0
-     var sum = 0.0
-
-
-     var member = pow(-1.0, degree) * (pow(func_x, 2 * degree + 1) / (factorial((2 * x + 1).toInt())))
-     while(member > abs(eps))
+     var shortX = x % (2 * PI)
+     var n = 3
+     var member = shortX
+     var sum:Double = member
+     while(abs(member) >= abs(eps))
      {
-         member = pow(-1.0, degree) * (pow(func_x, 2 * degree + 1) / (factorial((2 * x + 1).toInt())))
+         member *= (-1 * sqr(shortX)) / ((n - 1) * n)
          sum += member
-         degree++
+         n += 2
      }
-
      return sum
 }
 
@@ -283,7 +258,20 @@ fun sin(x: Double, eps: Double): Double
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double
+{
+    var shortX = x % (2 * PI)
+    var n = 2
+    var member = 1.0
+    var sum:Double = member
+    while(abs(member) >= abs(eps))
+    {
+        member *= (-1 * sqr(shortX)) / ((n - 1) * n)
+        sum += member
+        n += 2
+    }
+    return sum
+}
 
 /**
  * Средняя
@@ -296,7 +284,7 @@ fun revert(n: Int): Int
 {
     var number = n
     var numbCounter = digitNumber(n)     //считается количество цифр в числе
-    var finalNumber = 0.0
+    var finalNumber = 0
 
     number = n
     for(i in 1..numbCounter)
@@ -319,7 +307,7 @@ fun revert(n: Int): Int
  */
 fun isPalindrome(n: Int): Boolean
 {
-    return if (n == revert(n)) true else false
+    return (n == revert(n))
 }
 
 /**
@@ -344,7 +332,7 @@ fun hasDifferentDigits(n: Int): Boolean
         numb /= 10
     }
 
-    return if (falseCounter != 0) true else false
+    return (falseCounter != 0)
 }
 
 /**
@@ -359,19 +347,20 @@ fun hasDifferentDigits(n: Int): Boolean
 fun squareSequenceDigit(n: Int): Int
 {
     var numbersInRow = 0
-    var numb = 1
+    var numb = 0
     var numbSqr = 0
 
     while (numbersInRow < n)
     {
-        numbersInRow += digitNumber(sqr(numb))
         numb++
+        numbersInRow += digitNumber(sqr(numb))
     }
-    numbSqr = sqr(numb - 1)
-    var neededLength = numbersInRow - n
-    for (i in 1..neededLength)
+    numbSqr = sqr(numb)
+
+    while (numbersInRow != n)
     {
         numbSqr /= 10
+        numbersInRow--
     }
 
     return numbSqr % 10
@@ -408,5 +397,6 @@ fun fibSequenceDigit(n: Int): Int
 
     return numbFib % 10
 }
+
 
 

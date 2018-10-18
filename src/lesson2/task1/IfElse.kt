@@ -157,9 +157,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int
 {
-    var max = maxOf(a, b, c)
-    var min = minOf(a, b, c)
-    var middle = (a + b + c) - (max + min)
+    val max = maxOf(a, b, c)
+    val min = minOf(a, b, c)
+    val middle = (a + b + c) - (max + min)
     return if ((a + b > c) && (a + c > b) && (b + c > a))
     {
         if (sqr(min) + sqr(middle) > sqr(max))

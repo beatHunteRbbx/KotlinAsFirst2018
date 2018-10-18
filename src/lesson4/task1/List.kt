@@ -335,8 +335,7 @@ fun factorize(n: Int): List<Int>
  */
 fun factorizeToString(n: Int): String
 {
-     var list = factorize(n)
-    return list.joinToString(separator = "*")
+    return factorize(n).joinToString(separator = "*")
 }
 
 /**

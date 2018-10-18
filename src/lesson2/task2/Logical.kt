@@ -39,7 +39,7 @@ fun isNumberHappy(number: Int): Boolean
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
 {
-    return if (x1 == x2 || y1 == y2 ||(abs(x1 - x2)) == abs(y1 - y2)) true else false
+    return (x1 == x2 || y1 == y2 ||(abs(x1 - x2)) == abs(y1 - y2))
 }
 
 
@@ -90,5 +90,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean
     var maxHole = maxOf(r,s)
     var middleBrick = (a + b + c) - (minBrick + maxBrick)
 
-    return if ((minBrick <= minHole) && (middleBrick <= maxHole)) true else false
+    return ((minBrick <= minHole) && (middleBrick <= maxHole))
 }
