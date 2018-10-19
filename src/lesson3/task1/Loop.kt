@@ -130,10 +130,8 @@ fun fib(n: Int): Int
 /* ---HELPFUL FUNCTION FOR TASK lcm---*/
 fun nod(m: Int, n: Int): Int
 {
-    val a = m
-    val b = n
-    var max = maxOf(a,b)
-    var min = minOf(a,b)
+    var max = maxOf(m,n)
+    var min = minOf(m,n)
     while (max % min != 0)
     {
         min = minOf(max - min, min)
