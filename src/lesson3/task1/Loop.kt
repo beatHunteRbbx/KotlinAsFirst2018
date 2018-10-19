@@ -126,15 +126,28 @@ fun fib(n: Int): Int
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+
+/* ---HELPFUL FUNCTION FOR TASK lcm---*/
+fun nod(m: Int, n: Int): Int
+{
+    val a = m
+    val b = n
+    var max = maxOf(a,b)
+    var min = minOf(a,b)
+    while (max % min != 0)
+    {
+        min = minOf(max - min, min)
+        max = maxOf(max - min, min)
+    }
+    return min
+}
+/*------------------------------------*/
 fun lcm(m: Int, n: Int): Int
 {
-    var k = 1
-    while ((k % m != 0) || (k % n != 0))
-    {
-        k++
-    }
-
-    return k
+    val max = maxOf(m,n)
+    val min = minOf(m,n)
+    val nod = nod(m,n)
+    return max * min / nod
 }
 
 
@@ -191,7 +204,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean
 {
-   return (sqrt(m.toDouble())  <= floor(sqrt(n.toDouble())))
+   return (sqrt(m.toDouble()) <= floor(sqrt(n.toDouble())))
 }
 
 /**
@@ -214,7 +227,7 @@ fun collatzSteps(x: Int): Int
 {
     var numb = x
     var steps = 0
-    while ( numb != 1)
+    while (numb != 1)
     {
         if (numb % 2 == 0)
         {
@@ -238,10 +251,10 @@ fun collatzSteps(x: Int): Int
  */
 fun sin(x: Double, eps: Double): Double
  {
-     var shortX = x % (2 * PI)
+     val shortX = x % (2 * PI)
      var n = 3
      var member = shortX
-     var sum:Double = member
+     var sum = member
      while(abs(member) >= abs(eps))
      {
          member *= (-1 * sqr(shortX)) / ((n - 1) * n)
@@ -260,10 +273,10 @@ fun sin(x: Double, eps: Double): Double
  */
 fun cos(x: Double, eps: Double): Double
 {
-    var shortX = x % (2 * PI)
+    val shortX = x % (2 * PI)
     var n = 2
     var member = 1.0
-    var sum:Double = member
+    var sum = member
     while(abs(member) >= abs(eps))
     {
         member *= (-1 * sqr(shortX)) / ((n - 1) * n)
@@ -293,7 +306,7 @@ fun revert(n: Int): Int
         number /= 10
     }
 
-    return finalNumber.toInt()
+    return finalNumber
 }
 
 /**
@@ -335,16 +348,8 @@ fun hasDifferentDigits(n: Int): Boolean
     return (falseCounter != 0)
 }
 
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
- * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun squareSequenceDigit(n: Int): Int
+/*------HELPFUL FUNCTION FOR 2 LAST TASKS------*/
+fun sequenceDigit(n: Int, func: (Int) -> Int): Int
 {
     var numbersInRow = 0
     var numb = 0
@@ -353,9 +358,9 @@ fun squareSequenceDigit(n: Int): Int
     while (numbersInRow < n)
     {
         numb++
-        numbersInRow += digitNumber(sqr(numb))
+        numbersInRow += digitNumber(func(numb))
     }
-    numbSqr = sqr(numb)
+    numbSqr = func(numb)
 
     while (numbersInRow != n)
     {
@@ -365,7 +370,17 @@ fun squareSequenceDigit(n: Int): Int
 
     return numbSqr % 10
 }
-
+/*---------------------------------------------*/
+/**
+ * Сложная
+ *
+ * Найти n-ю цифру последовательности из квадратов целых чисел:
+ * 149162536496481100121144...
+ * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ *
+ * Использовать операции со строками в этой задаче запрещается.
+ */
+fun squareSequenceDigit(n: Int): Int = sequenceDigit(n) {it * it}
 
 /**
  * Сложная
@@ -376,27 +391,7 @@ fun squareSequenceDigit(n: Int): Int
  *
  * Использовать операции со строками в этой задаче запрещается..
  */
-fun fibSequenceDigit(n: Int): Int
-{
-    var numbersInRow = 0
-    var numbFib = 0
-    var numb = 0
-    while(numbersInRow < n)
-    {
-        numb++
-        numbersInRow += digitNumber(fib(numb))
-
-    }
-    numbFib = fib(numb)
-
-    while(numbersInRow != n)
-    {
-        numbFib /= 10
-        numbersInRow--
-    }
-
-    return numbFib % 10
-}
+fun fibSequenceDigit(n: Int): Int = sequenceDigit(n) {fib(it)}
 
 
 
