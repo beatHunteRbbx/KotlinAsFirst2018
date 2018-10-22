@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.sqrt
+import kotlin.math.*
 import java.lang.Math.pow
 
 fun digitToLetter(n: String): Int
@@ -236,21 +236,16 @@ fun times(a: List<Double>, b: List<Double>): Double
  */
 fun polynom(p: List<Double>, x: Double): Double
 {
-    if (p.isNotEmpty())
+    return if (p.isNotEmpty())
     {
-        var sum = p[0]
-        var exponent = x
-        for (i in 1..p.size - 1)
-        {
-            sum += p[i] * exponent
-            exponent *= x
-        }
-        return sum
+        var sum = 0.0
+        var exponent = 1.0
+        p.map {
+            sum += it * exponent
+            exponent *= x}
+        sum
     }
-    else
-    {
-        return 0.0
-    }
+    else 0.0
 }
 
 /**
