@@ -5,8 +5,6 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import kotlin.math.sqrt
 import java.lang.Math.pow
-import lesson3.task1.isPrime
-import java.lang.Math.toIntExact
 
 fun digitToLetter(n: String): Int
 {
@@ -158,20 +156,15 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double
 {
-    var abs = 0.0
-    if (v.isNotEmpty())
-    {
-        for (i in 0..v.size - 1)
-        {
-            abs += v[i] * v[i]
+    return if (v.isNotEmpty()) {
+        var sumSquares = 0.0
+        val list = v.map {it * it}
+        for (i in 0 until list.size) {
+            sumSquares += list[i]
         }
-
-        return sqrt(abs)
+        sqrt(sumSquares)
     }
-    else
-    {
-        return 0.0
-    }
+    else 0.0
 }
 
 /**
@@ -181,16 +174,9 @@ fun abs(v: List<Double>): Double
  */
 fun mean(list: List<Double>): Double
 {
-    var sredn = list.sum() / list.size
-
-    if (list.isEmpty())
-    {
-        return 0.0
-    }
-    else
-    {
-        return sredn
-    }
+    val average = list.sum() / list.size
+    return if (list.isEmpty()) 0.0
+    else average
 }
 
 
@@ -204,20 +190,13 @@ fun mean(list: List<Double>): Double
  */
 fun center(list: MutableList<Double>): MutableList<Double>
 {
-    if (list.isNotEmpty())
-    {
-        var averageValue = mean(list)
-        for (i in 0..list.size - 1)
-        {
+    if (list.isNotEmpty()) {
+        val averageValue = mean(list)
+        for (i in 0 until list.size) {
             list[i] = list[i] - averageValue
         }
-        return list
     }
-    else
-    {
-        return list
-    }
-
+    return list
 }
 
 /**
