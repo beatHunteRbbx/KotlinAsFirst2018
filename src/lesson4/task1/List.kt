@@ -260,20 +260,14 @@ fun polynom(p: List<Double>, x: Double): Double
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double>
 {
-    if (list.isNotEmpty())
-    {
-        var sum = list[0]
-        for (i in 1..list.size - 1)
-        {
-            list[i] += sum
-            sum += list[i] - sum
-        }
-        return list
+    if (list.isNotEmpty()) {
+        var sum = 0.0
+        list.replaceAll {
+            val element = sum
+            sum += it
+            it + element }
     }
-    else
-    {
-        return list
-    }
+    return list
 }
 
 /**
