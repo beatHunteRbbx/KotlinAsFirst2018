@@ -297,11 +297,11 @@ fun cos(x: Double, eps: Double): Double
 fun revert(n: Int): Int
 {
     var number = n
-    var numbCounter = digitNumber(n)     //считается количество цифр в числе
+    val numbCounter = digitNumber(n)     //считается количество цифр в числе
     var finalNumber = 0
 
     number = n
-    for(i in 1..numbCounter)
+    for (i in 1..numbCounter)
     {
         finalNumber = finalNumber * 10 + number % 10
         number /= 10
