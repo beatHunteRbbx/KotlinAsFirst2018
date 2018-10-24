@@ -157,12 +157,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double
 {
     return if (v.isNotEmpty()) {
-        var sumSquares = 0.0
         val list = v.map {it * it}
-        for (i in 0 until list.size) {
-            sumSquares += list[i]
-        }
-        sqrt(sumSquares)
+        sqrt(list.sum())
     }
     else 0.0
 }
@@ -208,14 +204,8 @@ fun center(list: MutableList<Double>): MutableList<Double>
  */
 fun times(a: List<Double>, b: List<Double>): Double
 {
-    var multiply = 0.0
-    return if (a.isNotEmpty())
-    {
-        for (i in 0 until a.size)
-        {
-            multiply += a[i] * b[i]
-        }
-        multiply
+    return if (a.isNotEmpty()) {
+        a.zip(b).fold(0.0) {prevResult, (a, b) -> prevResult + (a * b)}
     }
     else 0.0
 }
