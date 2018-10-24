@@ -285,10 +285,8 @@ fun factorize(n: Int): List<Int>
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String
-{
-    return factorize(n).joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
+
 
 /**
  * Средняя
@@ -301,13 +299,15 @@ fun convert(n: Int, base: Int): List<Int>
 {
     val digits = mutableListOf<Int>()
     var numb = n
-    while(numb > 0)
-    {
-        var i = 0
-        var digit = numb % base
-        digits.add(digit)
-        numb /= base
+    if (n != 0) {
+        while (numb > 0) {
+            val digit = numb % base
+            digits.add(digit)
+            numb /= base
+        }
+
     }
+    else digits.add(0)
     return digits.reversed()
 }
 
