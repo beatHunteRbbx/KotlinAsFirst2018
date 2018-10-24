@@ -6,9 +6,9 @@ import lesson1.task1.discriminant
 import kotlin.math.*
 import java.lang.Math.pow
 
-fun digitToLetter(n: String): Int
+fun letterToDigit(n: String): Int
 {
-    var list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
+    val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
             "s", "t", "u", "v", "w", "x", "y", "z")
     var answer = 0
     for (i in 0 until list.size)
@@ -19,7 +19,18 @@ fun digitToLetter(n: String): Int
             break
         }
     }
-    return answer
+    return if (answer == 0) n.toInt()
+           else answer
+}
+
+fun digitToLetter(n: Int): String
+{
+    return if (n !in 0..9) {
+        val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
+                "s", "t", "u", "v", "w", "x", "y", "z")
+        return list[n - 10]
+    }
+    else n.toString()
 }
 
 fun digitToRoman(n: String): String
@@ -319,8 +330,7 @@ fun convert(n: Int, base: Int): List<Int>
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
-
+fun convertToString(n: Int, base: Int): String = (convert(n, base).map { digitToLetter(it) }).joinToString( separator = "")
 
 /**
  * Средняя
@@ -331,14 +341,11 @@ fun convertToString(n: Int, base: Int): String = TODO()
  */
  fun decimal(digits: List<Int>, base: Int): Int
 {
-    var answer = 0.0
-    var degree = 0.0
-    for (i in digits.size - 1 downTo 0 )
-    {
-        answer += digits[i] * pow(base.toDouble(), degree)
+    var degree = -1.0
+    return digits.reversed().map {
         degree++
-    }
-    return answer.toInt()
+        it * pow(base.toDouble(), degree)
+    }.sum().toInt()
 }
 
 /**
@@ -359,8 +366,8 @@ fun decimalFromString(str: String, base: Int): Int
     {
         when (str[i].toString())
         {
-            "a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
-            "s", "t", "u", "v", "w", "x", "y", "z" -> digit = digitToLetter(str[i].toString())
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+            "s", "t", "u", "v", "w", "x", "y", "z" -> digit = letterToDigit(str[i].toString())
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" -> digit = (str[i].toString()).toInt()
         }
         answer += digit * pow(base.toDouble(), degree)
