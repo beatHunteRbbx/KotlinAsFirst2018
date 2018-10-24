@@ -209,21 +209,15 @@ fun center(list: MutableList<Double>): MutableList<Double>
 fun times(a: List<Double>, b: List<Double>): Double
 {
     var multiply = 0.0
-    if (a.isNotEmpty())
+    return if (a.isNotEmpty())
     {
-        for (i in 0..a.size - 1)
+        for (i in 0 until a.size)
         {
             multiply += a[i] * b[i]
         }
-
-        return multiply
+        multiply
     }
-    else
-    {
-        return 0.0
-    }
-
-
+    else 0.0
 }
 
 /**
