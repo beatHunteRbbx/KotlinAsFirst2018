@@ -8,7 +8,7 @@ import java.lang.Math.pow
 
 fun letterToDigit(n: String): Int
 {
-    val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
+    val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
             "s", "t", "u", "v", "w", "x", "y", "z")
     var answer = 0
     for (i in 0 until list.size)
