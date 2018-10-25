@@ -32,29 +32,6 @@ fun digitToLetter(n: Int): String
     }
     else n.toString()
 }
-
-fun digitToRoman(n: String): String
-{
-    return when(n)
-    {
-        "1" -> "I"
-        "2" -> "II"
-        "3" -> "III"
-        "4" -> "IV"
-        "5" -> "V"
-        "9" -> "IX"
-        "10" -> "X"
-        "40" -> "XL"
-        "50" -> "L"
-        "90" -> "XC"
-        "100" -> "C"
-        "400" -> "CD"
-        "500" -> "D"
-        "900" -> "CM"
-        "1000" -> "M"
-        else -> "0"
-    }
-}
 /**
  * Пример
  *
@@ -384,15 +361,19 @@ fun decimalFromString(str: String, base: Int): Int
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
-/*{
-    var digits = n.toString()
-    var answer: String
-    for (i in digits.length - 1 downTo 0)
-    {
-        answer +=
+fun roman(n: Int): String {
+    val romanLetters: Map<Int, String> = mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50
+            to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
+    val inRoman = mutableListOf<String>()
+    var numb = n
+    for (key in romanLetters.keys) {
+        while (numb >= key) {
+            inRoman.add(romanLetters[key].toString())
+            numb -= key
+        }
     }
-}*/
+    return inRoman.joinToString(separator = "")
+}
 
 /**
  * Очень сложная
