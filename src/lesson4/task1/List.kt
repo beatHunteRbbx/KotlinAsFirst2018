@@ -142,14 +142,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double
-{
-    return if (v.isNotEmpty()) {
-        val list = v.map {it * it}
-        sqrt(list.sum())
-    }
-    else 0.0
-}
+fun abs(v: List<Double>): Double = if (v.isNotEmpty()) {
+                                val list = v.map {it * it}
+                                sqrt(list.sum())
+                                } else 0.0
+
 
 /**
  * Простая
@@ -176,9 +173,7 @@ fun center(list: MutableList<Double>): MutableList<Double>
 {
     if (list.isNotEmpty()) {
         val averageValue = mean(list)
-        for (i in 0 until list.size) {
-            list[i] = list[i] - averageValue
-        }
+        list.replaceAll{ it - averageValue }
     }
     return list
 }
@@ -190,13 +185,9 @@ fun center(list: MutableList<Double>): MutableList<Double>
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double
-{
-    return if (a.isNotEmpty()) {
-        a.zip(b).fold(0.0) {prevResult, (a, b) -> prevResult + (a * b)}
-    }
-    else 0.0
-}
+fun times(a: List<Double>, b: List<Double>): Double =
+        if (a.isNotEmpty()) a.zip(b).fold(0.0) {prevResult, (a, b) -> prevResult + (a * b)} else 0.0
+
 
 /**
  * Средняя
@@ -206,19 +197,9 @@ fun times(a: List<Double>, b: List<Double>): Double
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double
-{
-    return if (p.isNotEmpty())
-    {
-        var sum = 0.0
-        var exponent = 1.0
-        p.map {
-            sum += it * exponent
-            exponent *= x}
-        sum
-    }
-    else 0.0
-}
+fun polynom(p: List<Double>, x: Double): Double =
+        if (p.isNotEmpty()) p.mapIndexed { index, value -> value * pow(x, index.toDouble()) }.sum() else 0.0
+
 
 /**
  * Средняя
@@ -237,7 +218,8 @@ fun accumulate(list: MutableList<Double>): MutableList<Double>
         list.replaceAll {
             val element = sum
             sum += it
-            it + element }
+            it + element
+        }
     }
     return list
 }
@@ -316,14 +298,11 @@ fun convertToString(n: Int, base: Int): String = (convert(n, base).map { digitTo
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
- fun decimal(digits: List<Int>, base: Int): Int
-{
-    var degree = -1.0
-    return digits.reversed().map {
-        degree++
-        it * pow(base.toDouble(), degree)
-    }.sum().toInt()
-}
+ fun decimal(digits: List<Int>, base: Int): Int =
+        digits.reversed().foldRightIndexed(0) { index, element, sum ->
+        sum + (element * pow(base.toDouble(), index.toDouble())).toInt()
+    }
+
 
 /**
  * Сложная
