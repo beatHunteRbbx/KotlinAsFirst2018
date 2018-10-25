@@ -26,7 +26,7 @@ fun letterToDigit(n: String): Int
 fun digitToLetter(n: Int): String
 {
     return if (n !in 0..9) {
-        val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "n", "o", "p", "q", "r",
+        val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
                 "s", "t", "u", "v", "w", "x", "y", "z")
         return list[n - 10]
     }
