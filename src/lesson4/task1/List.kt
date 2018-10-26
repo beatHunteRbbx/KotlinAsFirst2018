@@ -264,12 +264,12 @@ fun convertToString(n: Int, base: Int): String
 {
     var numb = n
     var answer = ""
-    while (numb > 0)
+    do
     {
         val digit = numb % base
         if (digit <= 9) answer += digit.toString() else answer += 'a' + (digit - 10)
         numb /= base
-    }
+    } while (numb > 0)
     return answer.reversed()
 }
 
@@ -343,3 +343,28 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+/*{
+    var units = listOf(
+            " один",
+            " два",
+            " три",
+            " четыре",
+            " пять",
+            " шесть",
+            " семь",
+            " восемь",
+            " девять"
+    )
+    var fromElevenToNineteen = listOf(
+            " одиннадцать",
+            " двенадцать",
+            " тринадцать",
+            " четырнадцать",
+            " пятнадцать",
+            " шестнадцать",
+            " семнадцать",
+            " восемнадцать",
+            " девятнадцать"
+    )
+
+}*/
