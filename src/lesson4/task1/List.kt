@@ -6,32 +6,7 @@ import lesson1.task1.discriminant
 import kotlin.math.*
 import java.lang.Math.pow
 
-fun letterToDigit(n: String): Int
-{
-    val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
-            "s", "t", "u", "v", "w", "x", "y", "z")
-    var answer = 0
-    for (i in 0 until list.size)
-    {
-        if (n == list[i])
-        {
-            answer = 10 + i
-            break
-        }
-    }
-    return if (answer == 0) n.toInt()
-           else answer
-}
 
-fun digitToLetter(n: Int): String
-{
-    return if (n !in 0..9) {
-        val list = listOf<String>("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
-                "s", "t", "u", "v", "w", "x", "y", "z")
-        return list[n - 10]
-    }
-    else n.toString()
-}
 /**
  * Пример
  *
@@ -142,11 +117,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = if (v.isNotEmpty()) {
-                                val list = v.map {it * it}
-                                sqrt(list.sum())
-                                } else 0.0
-
+fun abs(v: List<Double>): Double = sqrt(v.sumByDouble { it * it })
 
 /**
  * Простая
@@ -289,7 +260,18 @@ fun convert(n: Int, base: Int): List<Int>
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = (convert(n, base).map { digitToLetter(it) }).joinToString( separator = "")
+fun convertToString(n: Int, base: Int): String
+{
+    var numb = n
+    var answer = ""
+    while (numb > 0)
+    {
+        val digit = numb % base
+        if (digit <= 9) answer += digit.toString() else answer += 'a' + (digit - 10)
+        numb /= base
+    }
+    return answer.reversed()
+}
 
 /**
  * Средняя
@@ -320,11 +302,10 @@ fun decimalFromString(str: String, base: Int): Int
     var degree = 0.0
     for (i in str.length - 1 downTo 0)
     {
-        when (str[i].toString())
+        when
         {
-            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
-            "s", "t", "u", "v", "w", "x", "y", "z" -> digit = letterToDigit(str[i].toString())
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" -> digit = (str[i].toString()).toInt()
+            str[i] <= '9' -> digit = str[i].toInt() - 48
+            else -> digit = (10 + (str[i] - 'a'))
         }
         answer += digit * pow(base.toDouble(), degree)
         degree++
