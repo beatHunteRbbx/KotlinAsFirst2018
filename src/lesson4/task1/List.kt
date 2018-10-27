@@ -338,7 +338,7 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var units: Map<Int, String> = mapOf(
+    val units: Map<Int, String> = mapOf(
             0 to "",
             1 to "один",
             2 to "два",
@@ -350,7 +350,7 @@ fun russian(n: Int): String {
             8 to "восемь",
             9 to "девять"
     )
-    var fromElevenToNineteen: Map<Int, String> = mapOf(
+    val fromElevenToNineteen: Map<Int, String> = mapOf(
             11 to "одиннадцать ",
             12 to "двенадцать ",
             13 to "тринадцать ",
@@ -361,7 +361,7 @@ fun russian(n: Int): String {
             18 to "восемнадцать ",
             19 to "девятнадцать "
     )
-    var decades: Map<Int, String> = mapOf(
+    val decades: Map<Int, String> = mapOf(
             0 to "",
             1 to "десять ",
             2 to "двадцать ",
@@ -373,7 +373,7 @@ fun russian(n: Int): String {
             8 to "восемьдесят ",
             9 to "девяносто "
     )
-    var hundreds: Map<Int, String> = mapOf(
+    val hundreds: Map<Int, String> = mapOf(
             0 to "",
             1 to "сто ",
             2 to "двести ",
@@ -385,7 +385,7 @@ fun russian(n: Int): String {
             8 to "восемьсот ",
             9 to "девятьсот "
     )
-    var endsOfThousand: Map<Int, String> = mapOf(
+    val endsOfThousand: Map<Int, String> = mapOf(
             0 to "тысяч ",
             1 to "тысяча ",
             2 to "тысячи ",
@@ -397,7 +397,7 @@ fun russian(n: Int): String {
             8 to "тысяч ",
             9 to "тысяч "
     )
-    var endsOfUnits: Map<Int, String> = mapOf(
+    val endsOfUnits: Map<Int, String> = mapOf(
             0 to "",
             1 to "одна ",
             2 to "две ",
@@ -410,7 +410,7 @@ fun russian(n: Int): String {
             8 to "девять"
     )
 
-    var digits = mutableListOf<Int>()
+    val digits = mutableListOf<Int>()
     var numb = n
 
     while (numb > 0) {
