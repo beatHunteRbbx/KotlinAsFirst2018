@@ -297,20 +297,15 @@ fun convertToString(n: Int, base: Int): String
  */
 fun decimalFromString(str: String, base: Int): Int
 {
-    var answer = 0.0
-    var digit = 0
-    var degree = 0.0
+    val answer = mutableListOf<Int>()
     for (i in str.length - 1 downTo 0)
     {
-        when
-        {
-            str[i] <= '9' -> digit = str[i].toInt() - 48
-            else -> digit = (10 + (str[i] - 'a'))
+        when {
+            str[i] <= '9' -> answer.add(str[i].toInt() - 48)
+            else -> answer.add(10 + (str[i] - 'a'))
         }
-        answer += digit * pow(base.toDouble(), degree)
-        degree++
     }
-    return answer.toInt()
+    return decimal(answer.reversed(), base)
 }
 
 /**
@@ -342,29 +337,104 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
-/*{
-    var units = listOf(
-            " один",
-            " два",
-            " три",
-            " четыре",
-            " пять",
-            " шесть",
-            " семь",
-            " восемь",
-            " девять"
+fun russian(n: Int): String {
+    var units: Map<Int, String> = mapOf(
+            0 to "",
+            1 to "один",
+            2 to "два",
+            3 to "три",
+            4 to "четыре",
+            5 to "пять",
+            6 to "шесть",
+            7 to "семь",
+            8 to "восемь",
+            9 to "девять"
     )
-    var fromElevenToNineteen = listOf(
-            " одиннадцать",
-            " двенадцать",
-            " тринадцать",
-            " четырнадцать",
-            " пятнадцать",
-            " шестнадцать",
-            " семнадцать",
-            " восемнадцать",
-            " девятнадцать"
+    var fromElevenToNineteen: Map<Int, String> = mapOf(
+            11 to "одиннадцать ",
+            12 to "двенадцать ",
+            13 to "тринадцать ",
+            14 to "четырнадцать ",
+            15 to "пятнадцать ",
+            16 to "шестнадцать ",
+            17 to "семнадцать ",
+            18 to "восемнадцать ",
+            19 to "девятнадцать "
+    )
+    var decades: Map<Int, String> = mapOf(
+            0 to "",
+            1 to "десять ",
+            2 to "двадцать ",
+            3 to "тридцать ",
+            4 to "сорок ",
+            5 to "пятьдесят ",
+            6 to "шестьдесят ",
+            7 to "семьдесят ",
+            8 to "восемьдесят ",
+            9 to "девяносто "
+    )
+    var hundreds: Map<Int, String> = mapOf(
+            0 to "",
+            1 to "сто ",
+            2 to "двести ",
+            3 to "триста ",
+            4 to "четыреста ",
+            5 to "пятьсот ",
+            6 to "шестьсот ",
+            7 to "семьсот ",
+            8 to "восемьсот ",
+            9 to "девятьсот "
+    )
+    var endsOfThousand: Map<Int, String> = mapOf(
+            0 to "тысяч ",
+            1 to "тысяча ",
+            2 to "тысячи ",
+            3 to "тысячи ",
+            4 to "тысячи ",
+            5 to "тысяч ",
+            6 to "тысяч ",
+            7 to "тысяч ",
+            8 to "тысяч ",
+            9 to "тысяч "
+    )
+    var endsOfUnits: Map<Int, String> = mapOf(
+            0 to "",
+            1 to "одна ",
+            2 to "две ",
+            3 to "три",
+            4 to "четыре ",
+            5 to "пять ",
+            6 to "шесть ",
+            7 to "семь",
+            8 to "восемь",
+            8 to "девять"
     )
 
-}*/
+    var digits = mutableListOf<Int>()
+    var numb = n
+
+    while (numb > 0) {
+        digits.add(numb % 10)
+        numb /= 10
+    }
+    digits.reverse()
+    return when {
+        n > 99999 && (n / 1000) % 100 in 19 downTo 11 -> hundreds[digits[0]] + fromElevenToNineteen[n / 1000 % 100] +
+                                                         endsOfThousand[5] + hundreds[digits[3]] + decades[digits[4]] + units[digits[5]]
+        n > 99999 -> hundreds[digits[0]] + decades[digits[1]] + endsOfUnits[digits[2]] +
+                     endsOfThousand[digits[2]] + hundreds[digits[3]] + decades[digits[4]] + units[digits[5]]
+        n in 99999 downTo 10000  -> decades[digits[0]] + endsOfUnits[digits[1]] +
+                                    endsOfThousand[digits[1]] + hundreds[digits[2]] + decades[digits[3]] + units[digits[4]]
+        n in 9999 downTo 1000 -> endsOfUnits[digits[0]] +
+                                 endsOfThousand[digits[0]] + hundreds[digits[1]] + decades[digits[2]] + units[digits[3]]
+        n in 999 downTo 100 && n % 100 in 19 downTo 11 -> hundreds[digits[0]] + fromElevenToNineteen[n % 100]
+        n in 999 downTo 100 -> hundreds[digits[0]] + decades[digits[1]] + units[digits[2]]
+        n in 99 downTo  20 ->  decades[digits[0]] + units[digits[1]]
+        n in 19 downTo 11 -> fromElevenToNineteen[n].toString()
+        n in 9 downTo 1 -> units[n].toString()
+        n == 10 -> decades[1].toString()
+        else -> "ноль"
+    }.trim()
+}
+
+
