@@ -419,6 +419,10 @@ fun russian(n: Int): String {
     }
     digits.reverse()
     return when {
+        n > 99999 && (n / 1000) % 100 in 19 downTo 11 && n % 100 in 19 downTo  11 -> hundreds[digits[0]] + fromElevenToNineteen[n / 1000 % 100] +
+                                                                                     endsOfThousand[5] + hundreds[digits[3]] + fromElevenToNineteen[n % 100]
+        n > 99999 && n % 100 in 19 downTo  11 -> hundreds[digits[0]] + decades[digits[1]] + endsOfUnits[digits[2]] +
+                                                 endsOfThousand[digits[2]] + hundreds[digits[3]] + fromElevenToNineteen[n % 100]
         n > 99999 && (n / 1000) % 100 in 19 downTo 11 -> hundreds[digits[0]] + fromElevenToNineteen[n / 1000 % 100] +
                                                          endsOfThousand[5] + hundreds[digits[3]] + decades[digits[4]] + units[digits[5]]
         n > 99999 -> hundreds[digits[0]] + decades[digits[1]] + endsOfUnits[digits[2]] +
