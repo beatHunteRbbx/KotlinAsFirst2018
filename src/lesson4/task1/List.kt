@@ -407,7 +407,7 @@ fun russian(n: Int): String {
             6 to "шесть ",
             7 to "семь ",
             8 to "восемь ",
-            8 to "девять "
+            9 to "девять "
     )
 
     val digits = mutableListOf<Int>()
