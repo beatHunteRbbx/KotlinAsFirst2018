@@ -340,15 +340,15 @@ fun roman(n: Int): String {
 fun russian(n: Int): String {
     val units: Map<Int, String> = mapOf(
             0 to "",
-            1 to "один",
-            2 to "два",
-            3 to "три",
-            4 to "четыре",
-            5 to "пять",
-            6 to "шесть",
-            7 to "семь",
-            8 to "восемь",
-            9 to "девять"
+            1 to "один ",
+            2 to "два ",
+            3 to "три ",
+            4 to "четыре ",
+            5 to "пять ",
+            6 to "шесть ",
+            7 to "семь ",
+            8 to "восемь ",
+            9 to "девять "
     )
     val fromElevenToNineteen: Map<Int, String> = mapOf(
             11 to "одиннадцать ",
@@ -401,13 +401,13 @@ fun russian(n: Int): String {
             0 to "",
             1 to "одна ",
             2 to "две ",
-            3 to "три",
+            3 to "три ",
             4 to "четыре ",
             5 to "пять ",
             6 to "шесть ",
-            7 to "семь",
-            8 to "восемь",
-            8 to "девять"
+            7 to "семь ",
+            8 to "восемь ",
+            8 to "девять "
     )
 
     val digits = mutableListOf<Int>()
