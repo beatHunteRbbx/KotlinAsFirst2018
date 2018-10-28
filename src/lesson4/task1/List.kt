@@ -395,17 +395,7 @@ fun russian(n: Int): String {
             6 to "тысяч ",
             7 to "тысяч ",
             8 to "тысяч ",
-            9 to "тысяч ",
-            10 to "тысяч ",
-            11 to "тысяч ",
-            12 to "тысяч ",
-            13 to "тысяч ",
-            14 to "тысяч ",
-            15 to "тысяч ",
-            16 to "тысяч ",
-            17 to "тысяч ",
-            18 to "тысяч ",
-            19 to "тысяч "
+            9 to "тысяч "
     )
     val endsOfUnits: Map<Int, String> = mapOf(
             0 to "",
@@ -419,10 +409,8 @@ fun russian(n: Int): String {
             8 to "восемь ",
             9 to "девять "
     )
-
     val digits = mutableListOf<Int>()
     var numb = n
-
     while (numb > 0) {
         digits.add(numb % 10)
         numb /= 10
@@ -441,11 +429,12 @@ fun russian(n: Int): String {
         n > 99999 -> hundreds[digits[0]] + decades[digits[1]] + endsOfUnits[digits[2]] +
                      endsOfThousand[digits[2]] + hundreds[digits[3]] + decades[digits[4]] + units[digits[5]]
         n in 99999 downTo 10000 && n / 1000 in 19 downTo 11 && n % 100 in 19 downTo  11 -> fromElevenToNineteen[n / 1000] +
-                                                                                           endsOfThousand[n / 1000] +
+                                                                                           endsOfThousand.getOrDefault(n / 1000, "тысяч ") +
                                                                                            hundreds[digits[2]] +
                                                                                            fromElevenToNineteen[n % 100]
         n in 99999 downTo 10000 && n / 1000 in 19 downTo 11 -> fromElevenToNineteen[n / 1000] +
-                                                               endsOfThousand[n / 1000] + hundreds[digits[2]] +
+                                                               endsOfThousand.getOrDefault(n / 1000, "тысяч ") +
+                                                               hundreds[digits[2]] +
                                                                decades[digits[3]] + units[digits[4]]
         n in 99999 downTo 10000 && n % 100 in 19 downTo  11 -> decades[digits[0]] + endsOfUnits[digits[1]] +
                                                                endsOfThousand[digits[1]] + hundreds[digits[2]] +
