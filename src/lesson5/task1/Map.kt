@@ -94,7 +94,15 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+
+    val workMap: MutableMap<String, String> = mapA.toMutableMap()
+    workMap.forEach {
+        if (mapA[it.key] != mapB[it.key] && mapB[it.key] != null) workMap[it.key] = mapA[it.key] + ", " + mapB[it.key]
+        else workMap[it.key] ?: mapB[it.key]
+    }
+    return workMap
+}
 
 /**
  * Простая
@@ -138,6 +146,12 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+/*{
+    var answerMap = mutableMapOf<String, Double>()
+    for ((product, price) in stockPrices) {
+        answerMap[product.] =
+    }
+}*/
 
 /**
  * Средняя
