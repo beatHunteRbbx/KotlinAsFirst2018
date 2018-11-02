@@ -123,7 +123,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
         if (grades.containsValue(it.key)) workMap[it.key] = listOf(", ${grades[it.key]}")
     }
     return workMap
-}
+} */
 
 /**
  * Простая
@@ -157,7 +157,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
 /*{
     var answerMap = mutableMapOf<String, Double>()
-    for ((product, price) in stockPrices) {
+    stockPrices.forEach { product , price  ->
         answerMap[product.] =
     }
 }*/
@@ -226,7 +226,15 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val people = mutableListOf<String>()
+    for (personA in 0 until a.size) {
+        for (personB in 0 until b.size) {
+            if (a[personA] == b[personB]) people.add(a[personA])
+        }
+    }
+    return people
+}
 
 /**
  * Средняя
