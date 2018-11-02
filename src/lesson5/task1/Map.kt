@@ -245,7 +245,19 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    var flag = false
+    for (letter in 0 until word.length) {
+        for (listLetter in 0 until chars.size) {
+            if (word[letter] == chars[listLetter]) {
+                flag = true
+                break
+            }
+            else flag = false
+        }
+    }
+    return flag
+}
 
 /**
  * Средняя
