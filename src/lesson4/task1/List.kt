@@ -434,7 +434,12 @@ fun russian(n: Int): String {
                   else decades[nStr[nStr.size - 2]] + units[nStr[nStr.size - 1]]
     }
     else if (n > 0){
-        answer += units[nStr[nStr.size - 1]]
+        answer += when(n)
+        {
+            1 -> units[nStr[nStr.size - 1]] + "ин"
+            2 -> units[nStr[nStr.size - 1]] + "а"
+            else -> units[nStr[nStr.size - 1]]
+        }
     }
     else {
         answer = "ноль"
