@@ -121,6 +121,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     }
     workMap.forEach {
         if (grades.containsValue(it.key)) workMap[it.key] = listOf(", ${grades[it.key]}")
+    }
     return workMap
 }
 
