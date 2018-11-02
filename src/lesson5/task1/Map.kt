@@ -114,7 +114,15 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    var workMap = mutableMapOf<Int, List<String>>()
+    grades.forEach {
+        workMap[it.value] = listOf(it.key)
+    }
+    workMap.forEach {
+        if (grades.containsValue(it.key)) workMap[it.key] = listOf(", ${grades[it.key]}")
+    return workMap
+}
 
 /**
  * Простая
