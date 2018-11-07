@@ -118,9 +118,10 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val workMap = mutableMapOf<Int, MutableList<String>>()
     for ((student, mark) in grades) {
         if (workMap[mark] == null) workMap[mark] = mutableListOf(student)
-        else workMap[mark]?.add(student)
+        else workMap[mark]!!.add(student)
     }
-    return workMap          //need to sort list on workMap
+    workMap.forEach { it.value.sortDescending() }
+    return workMap
 }
 
 /**
