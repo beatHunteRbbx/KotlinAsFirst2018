@@ -419,11 +419,14 @@ fun russian(n: Int): String {
         }
         answer += if (n % 100 in fromElevenToNineteen) hundreds[nStr[nStr.size - 3]] + fromElevenToNineteen[n % 100]
                   else hundreds[nStr[nStr.size - 3]] + decades[nStr[nStr.size - 2]] + units[nStr[nStr.size - 1]]
-        answer += when (n % 10) {
-            1 -> "ин"
-            2 -> "а"
-            else -> ""
+        answer += if (n % 100 !in 11..19 ) {
+            when (n % 10) {
+                1 -> "ин"
+                2 -> "а"
+                else -> ""
+            }
         }
+        else ""
     }
     else if (n >= 100){
         answer += if (n % 100 in fromElevenToNineteen) hundreds[nStr[nStr.size - 3]] + fromElevenToNineteen[n % 100]
