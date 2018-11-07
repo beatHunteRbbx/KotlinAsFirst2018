@@ -115,15 +115,13 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    var workMap = mutableMapOf<Int, List<String>>()
-    grades.forEach {
-        workMap[it.value] = listOf(it.key)
+    val workMap = mutableMapOf<Int, MutableList<String>>()
+    for ((student, mark) in grades) {
+        if (workMap[mark] == null) workMap[mark] = mutableListOf(student)
+        else workMap[mark]?.add(student)
     }
-    workMap.forEach {
-        if (grades.containsValue(it.key)) workMap[it.key] = listOf(", ${grades[it.key]}")
-    }
-    return workMap
-} */
+    return workMap          //need to sort list on workMap
+}
 
 /**
  * Простая
