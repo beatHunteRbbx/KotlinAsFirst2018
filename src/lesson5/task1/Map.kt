@@ -271,6 +271,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
         if (counter == chars.size || word == "") true
         else false
     }
+    else if (word == "") true
     else false
 }
 
