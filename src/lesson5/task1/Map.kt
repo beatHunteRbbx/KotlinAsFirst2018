@@ -289,15 +289,12 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val repeats = mutableMapOf<String, Int>()   //складывать буквы в MAP и если они повторяются то модифицировать MAP
-    for (letter in 0 until list.size) {
-        var counter = 0
-        for (repeat in letter + 1 until list.size) {
-            if (list[letter] == list[repeat]) counter++
-        }
-        if (counter > 0) repeats[list[letter]] = counter + 1
+    val repeats = mutableMapOf<String, Int>()
+    for (letter in list) {
+        if (repeats.contains(letter)) repeats[letter] = repeats[letter]!! + 1
+        else repeats[letter] = 1
     }
-    return repeats
+    return repeats.filter { it.value > 1 }
 }
 
 /**
