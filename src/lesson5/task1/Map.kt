@@ -263,18 +263,17 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {   //сдел�
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {        //пустую строку перманентно можно создать, даже символов не нужно
-    var flag = false
-    for (letter in 0 until word.length) {
-        for (listLetter in 0 until chars.size) {
-            if (word[letter] == chars[listLetter]) {
-                flag = true
-                break
-            }
-            else flag = false
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    return if (chars.isNotEmpty()) {
+        var counter = 0
+        for (letter in chars) {
+            if (word.contains(letter)) counter++
+            else continue
         }
+        if (counter == chars.size || word == "") true
+        else false
     }
-    return flag
+    else false
 }
 
 /**
