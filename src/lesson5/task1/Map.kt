@@ -264,7 +264,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {   //сдел�
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {        //пустую строку перманентно можно создать, даже символов не нужно
     var flag = false
     for (letter in 0 until word.length) {
         for (listLetter in 0 until chars.size) {
@@ -291,7 +291,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val repeats = mutableMapOf<String, Int>()
+    val repeats = mutableMapOf<String, Int>()   //складывать буквы в MAP и если они повторяются то модифицировать MAP
     for (letter in 0 until list.size) {
         var counter = 0
         for (repeat in letter + 1 until list.size) {
