@@ -95,11 +95,12 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val workMap: MutableMap<String, String> = mapA.toMutableMap()
+    val workMap = mapA.toMutableMap()
     mapB.forEach {
-        if (mapA[it.key] != mapB[it.key] && mapB[it.key] != null && mapA[it.key] != null)
-            workMap[it.key] = "${mapA[it.key]}, ${mapB[it.key]}"
-        else workMap[it.key] = "${mapB[it.key]}"
+        val mapAValue = mapA[it.key]
+        if (mapAValue != it.value && mapAValue != null)
+            workMap[it.key] = "${mapAValue}, ${it.value}"
+        else workMap[it.key] = it.value
     }
     return workMap
 }
