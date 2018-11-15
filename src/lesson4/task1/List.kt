@@ -319,134 +319,49 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    val units: Map<Char, String> = mapOf(
-            '0' to "",
-            '1' to "од",
-            '2' to "дв",
-            '3' to "три ",
-            '4' to "четыре ",
-            '5' to "пять ",
-            '6' to "шесть ",
-            '7' to "семь ",
-            '8' to "восемь ",
-            '9' to "девять "
-    )
-    val fromElevenToNineteen: Map<Int, String> = mapOf(
-            11 to "одиннадцать ",
-            12 to "двенадцать ",
-            13 to "тринадцать ",
-            14 to "четырнадцать ",
-            15 to "пятнадцать ",
-            16 to "шестнадцать ",
-            17 to "семнадцать ",
-            18 to "восемнадцать ",
-            19 to "девятнадцать "
-    )
-    val decades: Map<Char, String> = mapOf(
-            '0' to "",
-            '1' to "десять ",
-            '2' to "двадцать ",
-            '3' to "тридцать ",
-            '4' to "сорок ",
-            '5' to "пятьдесят ",
-            '6' to "шестьдесят ",
-            '7' to "семьдесят ",
-            '8' to "восемьдесят ",
-            '9' to "девяносто "
-    )
-    val hundreds: Map<Char, String> = mapOf(
-            '0' to "",
-            '1' to "сто ",
-            '2' to "двести ",
-            '3' to "триста ",
-            '4' to "четыреста ",
-            '5' to "пятьсот ",
-            '6' to "шестьсот ",
-            '7' to "семьсот ",
-            '8' to "восемьсот ",
-            '9' to "девятьсот "
-    )
+    val units = listOf("", "од", "дв", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+    val fromElevenToNineteen = listOf("", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать ",
+            "шестнадцать ", "семнадцать ", "восемнадцать ", "девятнадцать ")
+    val decades = listOf("", "десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ", "семьдесят ",
+            "восемьдесят ", "девяносто ")
+    val hundreds = listOf("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ",
+            "восемьсот ", "девятьсот ")
     val digits = mutableListOf<Int>()
     var numb = n
     var answer = ""
-    val nStr = n.toString().toList()
     while (numb > 0) {
         digits.add(numb % 10)
         numb /= 10
     }
-    digits.reverse()
-    if (n >= 1000) {
-        val digitsCounterUntilThousand = when (digits.size) {
-            4 -> 1
-            5 -> 2
-            6 -> 3
-            else -> 0
-        }
-        if (n / 1000 % 100 in fromElevenToNineteen) {
-            answer+= when(digitsCounterUntilThousand) {
-                2 -> fromElevenToNineteen[n / 1000 % 100]
-                else -> hundreds[nStr[0]] + fromElevenToNineteen[n / 1000 % 100]
-            }
-            answer += "тысяч "
-        }
-        else {
-            answer += if (digitsCounterUntilThousand == 1) {
-                when (units[nStr[0]]) {
-                    "од" -> units[nStr[0]] + "на "
-                    "дв" -> units[nStr[0]] + "е "
-                    else -> units[nStr[0]]
-                }
-            }
-            else if (digitsCounterUntilThousand == 2) {
-                when(units[nStr[1]]) {
-                    "од" -> decades[nStr[0]] + units[nStr[1]] + "на "
-                    "дв" -> decades[nStr[0]]+units[nStr[1]]+ "е "
-                    else -> decades[nStr[0]]+units[nStr[1]]
-                }
-            }
-            else {
-                when (units[nStr[2]]) {
-                    "од" -> hundreds[nStr[0]] + decades[nStr[1]] + units[nStr[2]] + "на "
-                    "дв" -> hundreds[nStr[0]] + decades[nStr[1]] + units[nStr[2]] + "е "
-                    else -> hundreds[nStr[0]] + decades[nStr[1]] + units[nStr[2]]
-                }
-            }
-            answer += when (n / 1000 % 10) {
-                1 -> "тысяча "
-                in 2..4 -> "тысячи "
-                else -> "тысяч "
+    if (digits.size >= 6) answer += hundreds[digits[5]]
+    if (digits.size >= 5) {
+        answer += if (n / 1000 % 100 in 11..19) {
+            fromElevenToNineteen[n / 1000 % 10] + "тысяч "
+        } else decades[digits[4]]
+
+    }
+    if (digits.size >= 4) {
+        if (n / 1000 % 100 !in 11..19) {
+            answer += when (digits[3]) {
+                1 -> units[digits[3]] + "на " + "тысяча "
+                2 -> units[digits[3]] + "е " + "тысячи "
+                in 3..4 -> units[digits[3]] + "тысячи "
+                else -> units[digits[3]] + "тысяч "
             }
         }
-        answer += if (n % 100 in fromElevenToNineteen) hundreds[nStr[nStr.size - 3]] + fromElevenToNineteen[n % 100]
-                  else hundreds[nStr[nStr.size - 3]] + decades[nStr[nStr.size - 2]] + units[nStr[nStr.size - 1]]
-        answer += if (n % 100 !in 11..19 ) {
-            when (n % 10) {
-                1 -> "ин"
-                2 -> "а"
-                else -> ""
-            }
-        }
-        else ""
     }
-    else if (n >= 100){
-        answer += if (n % 100 in fromElevenToNineteen) hundreds[nStr[nStr.size - 3]] + fromElevenToNineteen[n % 100]
-                  else hundreds[nStr[nStr.size - 3]] + decades[nStr[nStr.size - 2]] + units[nStr[nStr.size - 1]]
+    if (digits.size >= 3) answer += hundreds[digits[2]]
+    if (digits.size >= 2) {
+        answer += if (n % 100 in 11..19) {
+            fromElevenToNineteen[n % 10]              //!!!!
+        } else decades[digits[1]]
     }
-    else if (n >= 10) {
-        answer += if (n % 100 in fromElevenToNineteen) fromElevenToNineteen[n % 100]
-                  else decades[nStr[nStr.size - 2]] + units[nStr[nStr.size - 1]]
+    if (digits.size >= 1 && n % 100 !in 11..19) answer += when (n % 10) {
+        1 -> units[digits[0]] + "ин "
+        2 -> units[digits[0]] + "а "
+        else -> units[digits[0]]
     }
-    else if (n > 0){
-        answer += when(n)
-        {
-            1 -> units[nStr[nStr.size - 1]] + "ин"
-            2 -> units[nStr[nStr.size - 1]] + "а"
-            else -> units[nStr[nStr.size - 1]]
-        }
-    }
-    else {
-        answer = "ноль"
-    }
+    if (n == 0) answer += "ноль"
     return answer.trim()
 }
 
