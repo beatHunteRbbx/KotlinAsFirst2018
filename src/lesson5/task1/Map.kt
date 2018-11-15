@@ -261,19 +261,8 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {   //сдел�
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    return if (chars.isNotEmpty()) {
-        var counter = 0
-        for (letter in chars) {
-            if (word.contains(letter)) counter++
-            else continue
-        }
-        if (counter == chars.size || word == "") true
-        else false
-    }
-    else if (word == "") true
-    else false
-}
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet().containsAll(word.toSet())
+
 
 /**
  * Средняя
