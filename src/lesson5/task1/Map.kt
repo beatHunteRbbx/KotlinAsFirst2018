@@ -284,11 +284,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  */
 fun hasAnagrams(words: List<String>): Boolean {
     var flag = false
-    for (i in 0 until words.size) {
-        val firstWord = words[i]
-        for (j in i + 1 until words.size) {
-            if (firstWord.toSet() == words[j].toSet()) flag = true
-        }
+    words.toSet().forEach {
+        val firstWord = it
+        val wordsWithoutFirstWord: MutableSet<String> = words.toMutableSet()
+        wordsWithoutFirstWord.remove(firstWord)
+        flag = wordsWithoutFirstWord.any {firstWord.toSet() == it.toSet()}
     }
     return flag
 }
