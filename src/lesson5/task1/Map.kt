@@ -179,7 +179,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var price = Double.MAX_VALUE
+    var price = Double.POSITIVE_INFINITY
     var name: String? = null
     stuff.forEach {
         if (it.value.first == kind && price > it.value.second) {
@@ -238,11 +238,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit =
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {   //сделать через множества
-    val people = mutableSetOf<String>()
-    a.forEach { if (b.contains(it)) people.add(it) }
-    return people.toList()
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b).toList()
 
 /**
  * Средняя
