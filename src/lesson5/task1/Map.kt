@@ -150,25 +150,17 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val answerMap = mutableMapOf<String, Double>()
     val numberOfProducts = mutableMapOf<String, Double>()
-    val pricesOfProducts = mutableSetOf<Pair<String, Double>>()
+    val pricesOfProducts = mutableMapOf<String, Double>()
     for ((product, price) in stockPrices) {
         numberOfProducts.put(product, stockPrices.count { it.first == product }.toDouble()) //ПОСЧИТАЛ КОЛ-ВО ВХОЖДЕНИЙ ПРОДУКТОВ, ТЕПЕРЬ НУЖНО ПОСЧИТАТЬ ПОЛНУЮ СУММУ ПРОДУКТОВ
+        if (pricesOfProducts.contains(product)) pricesOfProducts[product] = pricesOfProducts[product]!! + price
+        else pricesOfProducts[product] = price
     }
-}
-    /*val answerMap = mutableMapOf<String, Double>()
-    for (i in 0 until stockPrices.size) {
-        val productName = stockPrices[i].first
-        var price = stockPrices[i].second
-        var counter = 1.0
-        for (j in i + 1 until stockPrices.size) {
-            if (stockPrices[j].first == productName) {
-                price += stockPrices[j].second
-                counter++
-            }
-        }
-        if (!answerMap.contains(productName)) answerMap[productName] = price / counter
+
+    numberOfProducts.forEach {
+        if (pricesOfProducts.contains(it.key)) answerMap[it.key] = pricesOfProducts[it.key]!! / it.value
     }
-    return answerMap*/
+    return answerMap
 }
 
 /**
