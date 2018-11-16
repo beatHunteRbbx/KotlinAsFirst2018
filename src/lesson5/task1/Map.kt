@@ -267,7 +267,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val repeats = mutableMapOf<String, Int>()
     for (letter in list) {
-        if (repeats.contains(letter)) repeats[letter] = repeats[letter]!! + 1
+        if (repeats.contains(letter)) repeats[letter] = repeats.getOrDefault(letter, 0)  + 1
         else repeats[letter] = 1
     }
     return repeats.filter { it.value > 1 }
