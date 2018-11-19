@@ -135,7 +135,7 @@ fun dateDigitToStr(digital: String): String {
                 (parts[0].toInt() > daysInMonth(parts[1].toInt(), parts[2].toInt()))) throw exception
         else String.format("%d %s %d", parts[0].toInt(), months[parts[1]], parts[2].toInt())
     }
-    catch (e: NumberFormatException) {
+    catch (exception: NumberFormatException) {
         ""
     }
 }
@@ -152,7 +152,16 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {    //СДЕЛАТЬ ЧЕРЕЗ REGEX
+    var answer = ""
+    val exeption = NumberFormatException()
+    var string = StringBuilder()
+    string.append(phone)
+    for (i in 0 until phone.length) {
+        if (phone[i] == '+' || phone[i] == ' ' || phone[i] == ')' || phone[i] == '(') string.deleteCharAt(i)
+    }
+    return answer
+}
 
 /**
  * Средняя
