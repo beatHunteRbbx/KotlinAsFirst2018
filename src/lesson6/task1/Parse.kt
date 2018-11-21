@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson6.task1
+import jdk.nashorn.internal.runtime.regexp.joni.Regex
 import lesson2.task2.daysInMonth
 
 /**
@@ -153,13 +154,9 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {    //СДЕЛАТЬ ЧЕРЕЗ REGEX
+    val regex = ("""[0-9]|\+""").toRegex()
     var answer = ""
-    val exeption = NumberFormatException()
-    var string = StringBuilder()
-    string.append(phone)
-    for (i in 0 until phone.length) {
-        if (phone[i] == '+' || phone[i] == ' ' || phone[i] == ')' || phone[i] == '(') string.deleteCharAt(i)
-    }
+        answer += regex.findAll(phone).map { it.value }
     return answer
 }
 
