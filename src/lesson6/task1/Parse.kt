@@ -153,10 +153,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {    //СДЕЛАТЬ ЧЕРЕЗ REGEX
-    val regex = ("""[0-9]|\+""").toRegex()
+fun flattenPhoneNumber(phone: String): String {
+    val regex = ("""^(\+\d)?\(\d+\)\|\s+""").toRegex()
     var answer = ""
-        answer += regex.findAll(phone).map { it.value }
+    val phoneWithoutSpaces = phone.filter { it != ' ' }
+    for (i in 0 until phoneWithoutSpaces.length) {
+        answer += regex.find(phoneWithoutSpaces, i)?.value
+    }
     return answer
 }
 
