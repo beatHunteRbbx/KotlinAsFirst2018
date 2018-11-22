@@ -167,7 +167,8 @@ fun flattenPhoneNumber(phone: String): String =
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int =
-        if (Regex("""[^0-9%\-\s]""").containsMatchIn(jumps) || Regex("""[0-9]""").containsMatchIn(jumps) == false) -1
+        if (    Regex("""[^0-9%\-\s]""").containsMatchIn(jumps) ||
+                !Regex("""[0-9]""").containsMatchIn(jumps)) -1
         else jumps.replace(Regex("""[^0-9\s]"""), "").split(" ").max()?.toInt()!!
 
 
@@ -182,7 +183,8 @@ fun bestLongJump(jumps: String): Int =
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    return if (Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) || Regex("""[0-9]""").containsMatchIn(jumps) == false) -1
+    return if ( Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) ||
+                !Regex("""[0-9]""").containsMatchIn(jumps)) -1
     else jumps.replace(Regex("""\d{0,100}(?=\s%)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ").max()?.toInt()!!
 }
 
