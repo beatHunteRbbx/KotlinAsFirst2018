@@ -154,7 +154,9 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String =
-    if (Regex("""[^0-9+\-()\s]""").containsMatchIn(phone)) ""
+    if (    Regex("""[^0-9+\-()\s]""").containsMatchIn(phone) ||
+            phone == " " ||
+            phone.isEmpty()) ""
     else phone.replace(Regex("""^|[^0-9]"""), "")
 
 /**
@@ -167,10 +169,18 @@ fun flattenPhoneNumber(phone: String): String =
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int =
-        if (    Regex("""[^0-9%\-\s]""").containsMatchIn(jumps) ||
+fun bestLongJump(jumps: String): Int {
+    var jumpsList = listOf<String>()
+    var longestJump = -1
+    if (Regex("""[^0-9%\-\s]""").containsMatchIn(jumps) ||
                 !Regex("""[0-9]""").containsMatchIn(jumps)) -1
-        else jumps.replace(Regex("""[^0-9\s]"""), "").split(" ").max()?.toInt()!!
+    else jumpsList = jumps.replace(Regex("""[^0-9\s]"""), "").split(" ")
+    for (jump in jumpsList) {
+        if (jump == "") continue
+        else if (jump.toInt() > longestJump) longestJump = jump.toInt()
+    }
+    return longestJump
+}
 
 
 /**
@@ -184,9 +194,16 @@ fun bestLongJump(jumps: String): Int =
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    return if ( Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) ||
+    var jumpsList = listOf<String>()
+    var highestJump = -1
+    if ( Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) ||
                 !Regex("""[0-9]""").containsMatchIn(jumps)) -1
-    else jumps.replace(Regex("""\d{0,100}(?=\s%)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ").max()?.toInt()!!
+    else jumpsList = jumps.replace(Regex("""\d{0,100}(?=\s%)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ")
+    for (jump in jumpsList) {
+        if (jump == "") continue
+        else if (jump.toInt() > highestJump) highestJump = jump.toInt()
+    }
+    return highestJump
 }
 
 /**
@@ -200,7 +217,8 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int =
     if (    Regex("""[^\s\d+-]""").containsMatchIn(expression) ||
-            Regex("""\+\d|\d\+|-\d|\d-""").containsMatchIn(expression)) throw  IllegalArgumentException()
+            Regex("""\+\d|\d\+|-\d|\d-""").containsMatchIn(expression) ||
+            expression.isEmpty() ) throw  IllegalArgumentException()
     else {
         val expressionWithoutSpaces = expression.split(" ")
         var answer = expressionWithoutSpaces[0].toInt()
@@ -223,11 +241,15 @@ fun plusMinus(expression: String): Int =
 fun firstDuplicateIndex(str: String): Int {
     val strWords = str.toLowerCase().split(" ")
     var index = 0
+    var hasDuplicate = false
     for (i in 0 until strWords.size - 1) {
-        if (strWords[i] == strWords[i + 1]) break
+        if (strWords[i] == strWords[i + 1]) {
+            hasDuplicate = true
+            break
+        }
             index += strWords[i].length + 1
     }
-    return if (index != 0) index
+    return if (hasDuplicate) index
     else -1
 }
 
@@ -280,33 +302,34 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    val oneRomanLetter: Map<String, Int> = mapOf(
-            "M" to 1000,
-            "D" to 500,
-            "C" to 100,
-            "L" to 50,
-            "X" to 10,
-            "V" to 5,
-            "I" to 1)
-    var answer = 0
-    try {
-        for (number in roman) {
-            if (oneRomanLetter.contains(number.toString())) {
-                  answer += oneRomanLetter[number.toString()]!!
+    if (roman.isNotEmpty()) {
+        val oneRomanLetter: Map<String, Int> = mapOf(
+                "M" to 1000,
+                "D" to 500,
+                "C" to 100,
+                "L" to 50,
+                "X" to 10,
+                "V" to 5,
+                "I" to 1)
+        var answer = 0
+        try {
+            for (number in roman) {
+                if (oneRomanLetter.contains(number.toString())) {
+                    answer += oneRomanLetter[number.toString()]!!
+                } else throw NumberFormatException()
             }
-            else throw NumberFormatException()
+        } catch (e: NumberFormatException) {
+            return -1
         }
+        if (Regex("""CM""").containsMatchIn(roman)) answer -= 200
+        if (Regex("""CD""").containsMatchIn(roman)) answer -= 200
+        if (Regex("""XC""").containsMatchIn(roman)) answer -= 20
+        if (Regex("""XL""").containsMatchIn(roman)) answer -= 20
+        if (Regex("""IX""").containsMatchIn(roman)) answer -= 2
+        if (Regex("""IV""").containsMatchIn(roman)) answer -= 2
+        return answer
     }
-    catch(e: NumberFormatException) {
-        return -1
-    }
-    if (Regex("""CM""").containsMatchIn(roman)) answer -= 200
-    if (Regex("""CD""").containsMatchIn(roman)) answer -= 200
-    if (Regex("""XC""").containsMatchIn(roman)) answer -= 20
-    if (Regex("""XL""").containsMatchIn(roman)) answer -= 20
-    if (Regex("""IX""").containsMatchIn(roman)) answer -= 2
-    if (Regex("""IV""").containsMatchIn(roman)) answer -= 2
-    return answer
+    else return -1
 }
 
 /**
