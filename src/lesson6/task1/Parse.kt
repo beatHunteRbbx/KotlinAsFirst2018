@@ -3,6 +3,7 @@
 package lesson6.task1
 import lesson2.task2.daysInMonth
 
+
 /**
  * Пример
  *
@@ -241,7 +242,31 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isNotEmpty()) {
+        var maxPrice = -1.0
+        var mostExpensiveProduct = ""
+        val productsWithPrice = description.split(";")
+        var (product, price) = Pair("", 0.0)
+        try {
+            for (member in productsWithPrice) {
+                product = member.trim().split(" ")[0]
+                price = member.trim().split(" ")[1].toDouble()
+                if (price < 0) throw NumberFormatException()
+
+                if (price > maxPrice) {
+                    mostExpensiveProduct = product
+                    maxPrice = price
+                }
+            }
+            return mostExpensiveProduct
+        }
+        catch (e: NumberFormatException){
+            return ""
+        }
+    }
+    else return ""
+}
 
 /**
  * Сложная
