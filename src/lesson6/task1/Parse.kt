@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson6.task1
-import jdk.nashorn.internal.runtime.regexp.joni.Regex
 import lesson2.task2.daysInMonth
 
 /**
@@ -153,15 +152,9 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    val regex = ("""^(\+\d)?\(\d+\)\|\s+""").toRegex()
-    var answer = ""
-    val phoneWithoutSpaces = phone.filter { it != ' ' }
-    for (i in 0 until phoneWithoutSpaces.length) {
-        answer += regex.find(phoneWithoutSpaces, i)?.value
-    }
-    return answer
-}
+fun flattenPhoneNumber(phone: String): String =
+    if (Regex("""[^0-9+\-()\s]""").containsMatchIn(phone)) ""
+    else phone.replace(Regex("""^|[^0-9]"""), "")
 
 /**
  * Средняя
@@ -173,7 +166,10 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int =
+        if (Regex("""[^0-9%\-\s]""").containsMatchIn(jumps) || Regex("""[0-9]""").containsMatchIn(jumps) == false) -1
+        else jumps.replace(Regex("""[^0-9\s]"""), "").split(" ").max()?.toInt()!!
+
 
 /**
  * Сложная
@@ -185,7 +181,10 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    return if (Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) || Regex("""[0-9]""").containsMatchIn(jumps) == false) -1
+    else jumps.replace(Regex("""\d{0,100}(?=\s%)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ").max()?.toInt()!!
+}
 
 /**
  * Сложная
