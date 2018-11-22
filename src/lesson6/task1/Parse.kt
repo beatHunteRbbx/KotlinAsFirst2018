@@ -279,7 +279,35 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val oneRomanLetter: Map<String, Int> = mapOf(
+            "M" to 1000,
+            "D" to 500,
+            "C" to 100,
+            "L" to 50,
+            "X" to 10,
+            "V" to 5,
+            "I" to 1)
+    var answer = 0
+    try {
+        for (number in roman) {
+            if (oneRomanLetter.contains(number.toString())) {
+                  answer += oneRomanLetter[number.toString()]!!
+            }
+            else throw NumberFormatException()
+        }
+    }
+    catch(e: NumberFormatException) {
+        return -1
+    }
+    if (Regex("""CM""").containsMatchIn(roman)) answer -= 200
+    if (Regex("""CD""").containsMatchIn(roman)) answer -= 200
+    if (Regex("""XC""").containsMatchIn(roman)) answer -= 20
+    if (Regex("""XL""").containsMatchIn(roman)) answer -= 20
+    if (Regex("""IX""").containsMatchIn(roman)) answer -= 2
+    if (Regex("""IV""").containsMatchIn(roman)) answer -= 2
+    return answer
+}
 
 /**
  * Очень сложная
