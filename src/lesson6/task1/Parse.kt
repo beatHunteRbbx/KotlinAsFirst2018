@@ -197,7 +197,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int =
     if (    Regex("""[^\s\d+-]""").containsMatchIn(expression) ||
-            Regex("""\+\d|\d\+|\-\d|\d\-""").containsMatchIn(expression)) throw  IllegalArgumentException()
+            Regex("""\+\d|\d\+|-\d|\d-""").containsMatchIn(expression)) throw  IllegalArgumentException()
     else {
         val expressionWithoutSpaces = expression.split(" ")
         var answer = expressionWithoutSpaces[0].toInt()
