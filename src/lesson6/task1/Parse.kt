@@ -198,7 +198,7 @@ fun bestHighJump(jumps: String): Int {
     var highestJump = -1
     if ( Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) ||
                 !Regex("""[0-9]""").containsMatchIn(jumps)) -1
-    else jumpsList = jumps.replace(Regex("""\d{0,100}(?=\s%)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ")
+    else jumpsList = jumps.replace(Regex("""\d{0,100}\s\%+(?!\+)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ")
     for (jump in jumpsList) {
         if (jump == "") continue
         else if (jump.toInt() > highestJump) highestJump = jump.toInt()
@@ -221,6 +221,7 @@ fun plusMinus(expression: String): Int =
             expression.isEmpty() ) throw  IllegalArgumentException()
     else {
         val expressionWithoutSpaces = expression.split(" ")
+        if  (!Regex("""[0-9]""").containsMatchIn(expression)) throw IllegalArgumentException()
         var answer = expressionWithoutSpaces[0].toInt()
         for (i in 1 until expressionWithoutSpaces.size - 1 step 2) {
             if (expressionWithoutSpaces[i] == "+") answer += expressionWithoutSpaces[i + 1].toInt()
