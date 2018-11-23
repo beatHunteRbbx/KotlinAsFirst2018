@@ -155,6 +155,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String =
     if (    Regex("""[^0-9+\-()\s]|\s$""").containsMatchIn(phone) ||
+            !Regex("""[0-9]""").containsMatchIn(phone) ||
             phone == " " ||
             phone.isEmpty()) ""
     else phone.replace(Regex("""^|[^0-9]"""), "")
