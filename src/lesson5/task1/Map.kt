@@ -282,7 +282,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {  //можно сравнивать значения char у слов
+fun hasAnagrams(words: List<String>): Boolean {
     var flag = false
     val lowerCaseWords = words.map {it.toLowerCase()}
     mainLoop@ for (i in 0 until lowerCaseWords.size) {
