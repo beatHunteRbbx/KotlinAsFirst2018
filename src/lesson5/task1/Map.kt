@@ -286,7 +286,8 @@ fun hasAnagrams(words: List<String>): Boolean {
     var flag = false
     mainLoop@ for (i in 0 until words.size) {
         for (j in i + 1 until words.size) {
-            if (words[i].all { words[j].contains(it) }) {
+            if (words[i].all { words[j].contains(it) } &&
+                words[j].all { words[i].contains(it)}) {
                 flag = true
                 break@mainLoop
             }
