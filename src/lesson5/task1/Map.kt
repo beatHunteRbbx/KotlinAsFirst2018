@@ -284,11 +284,15 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  */
 fun hasAnagrams(words: List<String>): Boolean {  //можно сравнивать значения char у слов
     var flag = false
-    words.toSet().forEach {
-        val firstWord = it
-        val wordsWithoutFirstWord: MutableSet<String> = words.toMutableSet()
-        wordsWithoutFirstWord.remove(firstWord)
-        flag = wordsWithoutFirstWord.any {firstWord.toSet() == it.toSet()}
+    val lowerCaseWords = words.map {it.toLowerCase()}
+    mainLoop@ for (i in 0 until lowerCaseWords.size) {
+        for (j in i + 1 until lowerCaseWords.size) {
+            if (lowerCaseWords[i].all { lowerCaseWords[j].contains(it) }) {
+                flag = true
+                break@mainLoop
+            }
+            else continue
+        }
     }
     return flag
 }
