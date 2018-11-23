@@ -284,10 +284,9 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  */
 fun hasAnagrams(words: List<String>): Boolean {
     var flag = false
-    val lowerCaseWords = words.map {it.toLowerCase()}
-    mainLoop@ for (i in 0 until lowerCaseWords.size) {
-        for (j in i + 1 until lowerCaseWords.size) {
-            if (lowerCaseWords[i].all { lowerCaseWords[j].contains(it) }) {
+    mainLoop@ for (i in 0 until words.size) {
+        for (j in i + 1 until words.size) {
+            if (words[i].all { words[j].contains(it) }) {
                 flag = true
                 break@mainLoop
             }
