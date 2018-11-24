@@ -215,19 +215,22 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val friendsMap = friends.toMutableMap()
+    var friendsMap = friends.toMutableMap()
+    val answerMap = friends.toMutableMap()
     for (person in friendsMap) {
         for (friend in person.value) {
-            if (!friendsMap.contains(friend)) friendsMap[friend] = emptySet()
+            if (!friendsMap.contains(friend)) answerMap[friend] = emptySet()
         }
     }
+    friendsMap = answerMap
     for (person in friendsMap) {
-        for (friend in person.value) if (friendsMap.containsKey(friend)) friendsMap[person.key] = person.value.union(friendsMap[friend]!!)
+        for (friend in person.value) if (friendsMap.containsKey(friend)) answerMap[person.key] = person.value.union(friendsMap[friend]!!)
     }
+    friendsMap = answerMap
     for ((person, comrades) in friendsMap) {
-        for (friend in comrades) if (friend == person) friendsMap[person] = friendsMap[person]!! - friend
+        for (friend in comrades) if (friend == person) answerMap[person] = answerMap[person]!! - friend
     }
-    return friendsMap
+    return answerMap
 }
 
 /**
