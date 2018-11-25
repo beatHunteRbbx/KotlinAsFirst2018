@@ -370,7 +370,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    val suitableTreasures = Array(capacity) { Array(capacity) { 0 }} //двумерный массив для заполнения таблицы
+    val suitableTreasures = Array(treasures.size + 1) { Array(capacity + 1) { 0 }} //двумерный массив для заполнения таблицы
     val answerSet = mutableSetOf<String>()
     //Создаём список имён и заполняем его именами предметов из ассоциативного массива
     val nameOfTreasures = mutableListOf<String>()
@@ -379,17 +379,17 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     //------------------------------------------------------------------------------------------------------------
     //Заполняем первый столбец массива
-    for (weight in 0 until capacity) {
+    for (weight in 1..capacity) {
         if (treasures[nameOfTreasures[0]]!!.first <= weight ) {
             suitableTreasures[0][weight] = treasures[nameOfTreasures[0]]!!.second
             answerSet.add(nameOfTreasures[0])
         }
     }
     //---------------------------------
-    var n = 0       //n - номер предмета. нужен для использования в двумерном массиве
+    var n = 1       //n - номер предмета. нужен для использования в двумерном массиве
     for (treasure in treasures) {
         n++
-        for (weight in 0 until capacity) {
+        for (weight in 1..capacity) {
             if (treasure.value.first <= weight) {
                 val a = suitableTreasures[n - 1][weight - treasure.value.first].toDouble() + treasure.value.second.toDouble()
                 val b = suitableTreasures[n - 1][weight].toDouble()
