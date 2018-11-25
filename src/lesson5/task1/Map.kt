@@ -387,7 +387,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             }
         }
         //---------------------------------
-        var n = 1       //n - номер предмета. нужен для использования в двумерном массиве
+        var n = 0       //n - номер предмета. нужен для использования в двумерном массиве
         for (treasure in treasures) {
             n++
             for (weight in 1..capacity) {
