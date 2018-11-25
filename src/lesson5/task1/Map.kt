@@ -370,7 +370,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-
     val suitableTreasures = Array(capacity) { Array(capacity) { 0 }} //двумерный массив для заполнения таблицы
     val answerSet = mutableSetOf<String>()
     //Создаём списки имён, весов и цен и заполняем их именами предметов из ассоциативного массива
