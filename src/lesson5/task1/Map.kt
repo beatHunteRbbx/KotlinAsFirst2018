@@ -371,7 +371,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     if (treasures.isNotEmpty()) {
-        val suitableTreasures = Array(treasures.size + 1) { Array(capacity + 1) { 0 } } //двумерный массив для заполнения таблицы
+        val suitableTreasures = Array(capacity + 1) { Array(treasures.size + 1) { 0 } } //двумерный массив для заполнения таблицы
         val answerSet = mutableSetOf<String>()
         //Создаём список имён и заполняем его именами предметов из ассоциативного массива
         val nameOfTreasures = mutableListOf<String>()
@@ -379,23 +379,27 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             nameOfTreasures.add(treasure.key)
         }
         //------------------------------------------------------------------------------------------------------------
-        //Заполняем первый столбец массива
+        //Заполняем первый столбец двойного массива
         for (weight in 1..capacity) {
             if (treasures[nameOfTreasures[0]]!!.first <= weight) {
-                suitableTreasures[0][weight] = treasures[nameOfTreasures[0]]!!.second
+                suitableTreasures[weight][0] = treasures[nameOfTreasures[0]]!!.second
                 answerSet.add(nameOfTreasures[0])
             }
         }
         //---------------------------------
-        var n = 0       //n - номер предмета. нужен для использования в двумерном массиве
+        var volume = 0
+        var n = 0 //n - номер предмета. нужен для использования в двумерном массиве
         for (treasure in treasures) {
             n++
             for (weight in 1..capacity) {
-                if (treasure.value.first <= weight) {
-                    val a = suitableTreasures[n - 1][weight - treasure.value.first].toDouble() + treasure.value.second.toDouble()
-                    val b = suitableTreasures[n - 1][weight].toDouble()
-                    suitableTreasures[n][weight] = max(a, b).toInt()
-                    if (max(a, b) == a) answerSet.add(treasure.key)
+                if (treasure.value.first <= weight && volume + treasure.value.first <= capacity) {
+                    val a = suitableTreasures[weight - treasure.value.first][n - 1].toDouble() + treasure.value.second.toDouble()
+                    val b = suitableTreasures[weight][n - 1].toDouble()
+                    suitableTreasures[weight][n] = max(a, b).toInt()
+                    if (max(a, b) == a) {
+                        answerSet.add(treasure.key)
+                        volume += treasure.value.first
+                    }
                 }
             }
         }
