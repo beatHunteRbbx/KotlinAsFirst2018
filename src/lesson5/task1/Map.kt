@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.max
+
 /**
  * Пример
  *
@@ -367,4 +369,35 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+
+    val suitableTreasures = Array(capacity) { Array(capacity) { 0 }} //двумерный массив для заполнения таблицы
+    val answerSet = mutableSetOf<String>()
+    //Создаём списки имён, весов и цен и заполняем их именами предметов из ассоциативного массива
+    val nameOfTreasures = mutableListOf<String>()
+    for (treasure in treasures) {
+        nameOfTreasures.add(treasure.key)
+    }
+    //------------------------------------------------------------------------------------------------------------
+    //Заполняем первый столбец массива
+    for (weight in 0 until capacity) {
+        if (treasures[nameOfTreasures[0]]!!.first <= weight ) {
+            suitableTreasures[0][weight] = treasures[nameOfTreasures[0]]!!.second
+            answerSet.add(nameOfTreasures[0])
+        }
+    }
+    //---------------------------------
+    var n = 0 //    n - номер предмета. нужен для использования в двумерном массиве
+    for (treasure in treasures) {
+        n++
+        for (weight in 0 until capacity) {
+            if (treasure.value.first <= weight) {
+                val a = suitableTreasures[n - 1][weight - treasure.value.first].toDouble() + treasure.value.second.toDouble()
+                val b = suitableTreasures[n - 1][weight].toDouble()
+                suitableTreasures[n][weight] = max(a, b).toInt()
+                if (max(a, b) == a) answerSet.add(treasure.key)
+            }
+        }
+    }
+    return answerSet
+}
