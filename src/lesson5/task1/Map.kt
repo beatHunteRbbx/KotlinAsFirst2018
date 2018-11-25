@@ -390,6 +390,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         var volume = 0
         var n = 0 //n - номер предмета. нужен для использования в двумерном массиве
         for (treasure in treasures) {
+            var hasFilling = false
             n++
             for (weight in 1..capacity) {
                 if (treasure.value.first <= weight && volume + treasure.value.first <= capacity) {
@@ -398,10 +399,11 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
                     suitableTreasures[weight][n] = max(a, b).toInt()
                     if (max(a, b) == a) {
                         answerSet.add(treasure.key)
-                        volume += treasure.value.first
+                        hasFilling = true
                     }
                 }
             }
+            if (hasFilling) volume += treasure.value.first
         }
         return answerSet
     } else return emptySet()
