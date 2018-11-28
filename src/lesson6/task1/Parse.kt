@@ -74,7 +74,7 @@ fun main(args: Array<String>) {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val months: Map<String, Int> = mapOf(
+    val months = mapOf(
             "января" to 1,
             "февраля" to 2,
             "марта" to 3,
@@ -113,7 +113,7 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val months: Map<String, String> = mapOf(
+    val months = mapOf(
             "01" to "января",
             "02" to "февраля",
             "03" to "марта",
@@ -197,7 +197,7 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     var jumpsList = listOf<String>()
     var highestJump = -1
-    if ( Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) ||
+    if (Regex("""[^0-9+%\-\s]""").containsMatchIn(jumps) ||
                 !Regex("""[0-9]""").containsMatchIn(jumps)) -1
     else jumpsList = jumps.replace(Regex("""\d+\s[%\-]+(\s|$)"""), "").replace(Regex("""[^0-9\s]"""), "").split(" ")
     for (jump in jumpsList) {
@@ -219,10 +219,10 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int =
     if (    Regex("""[^\s\d+-]""").containsMatchIn(expression) ||
             Regex("""\+\d|\d\+|-\d|\d-""").containsMatchIn(expression) ||
-            expression.isEmpty() ) throw  IllegalArgumentException()
+            expression.isEmpty()) throw  IllegalArgumentException()
     else {
         val expressionWithoutSpaces = expression.split(" ")
-        if  (!Regex("""[0-9]""").containsMatchIn(expression)) throw IllegalArgumentException()
+        if (!Regex("""[0-9]""").containsMatchIn(expression)) throw IllegalArgumentException()
         var answer = expressionWithoutSpaces[0].toInt()
         for (i in 1 until expressionWithoutSpaces.size - 1 step 2) {
             if (expressionWithoutSpaces[i] == "+") answer += expressionWithoutSpaces[i + 1].toInt()
@@ -249,7 +249,7 @@ fun firstDuplicateIndex(str: String): Int {
             hasDuplicate = true
             break
         }
-            index += strWords[i].length + 1
+        index += strWords[i].length + 1
     }
     return if (hasDuplicate) index
     else -1
@@ -267,29 +267,29 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
-    if (description.isNotEmpty()) {
+    return if (description.isNotEmpty()) {
         var maxPrice = -1.0
         var mostExpensiveProduct = ""
         val productsWithPrice = description.split(";")
         var (product, price) = Pair("", 0.0)
         try {
             for (member in productsWithPrice) {
+                if (member.trim().split(" ").size % 2 != 0) throw NumberFormatException()
                 product = member.trim().split(" ")[0]
                 price = member.trim().split(" ")[1].toDouble()
                 if (price < 0) throw NumberFormatException()
-
                 if (price > maxPrice) {
                     mostExpensiveProduct = product
                     maxPrice = price
                 }
             }
-            return mostExpensiveProduct
+            mostExpensiveProduct
         }
         catch (e: NumberFormatException){
-            return ""
+            ""
         }
     }
-    else return ""
+    else ""
 }
 
 /**
