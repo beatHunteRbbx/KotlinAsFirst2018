@@ -370,4 +370,83 @@ fun fromRoman(roman: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    var cellsList = mutableListOf<Int>()        //создал лист для ячеек
+    for (i in 0 until cells) cellsList.add(0)   //заполняю лист ячеек нулями
+    if (Regex("[^\\s><+-\\[\\]]|[0-9]").containsMatchIn(commands) ||
+            commands.count { it == ']' } != commands.count { it == '[' }) throw IllegalArgumentException()
+    var cellsCounter = cells / 2 //счётчик ячеек, нужен чтобы обращаться по индексу к определённой ячейке
+    var command = 0   //счетчик команд, нужен чтобы обращаться по индексу к определенной команде в commands
+    var allCommands = 0 //счётчик общего числа команд для цикла while
+    var notToDo = false //флаг выполнять следующие команды или нет. используется если команда = '[' символ != 0, тогда цикл [] должен пропускаться
+    var haveLoop = false //флаг чтобы программа понимала что у нас в данный момент есть цикл и прибавляла returns
+    var loopCounter = 0  //чётчик циклов, чтобы понимать, делать ли haveLoop = false или нет
+    var wasExtraPlus = false
+    var returns = mutableListOf<Int>()    //кол-во операций в цикле [] на которые надо будет возвращаться. создал лист, так как может быть бесконечное кол-во вложенных циклов
+    //УБРАТЬ ПОСЛЕ ПОЛНОГО ВЫПОЛНЕНИЯ
+    var reached = false
+    //
+    try {
+        while (allCommands < limit && command < commands.length) {
+            wasExtraPlus = false
+            cellsList[cellsCounter] //вызов текущей ячейки для проверки, не вышел ли конвейер за границы
+            when (commands[command]) {
+                '+' -> {
+                    if (!notToDo) cellsList[cellsCounter]++
+                    if (haveLoop) returns[loopCounter - 1]++
+                }
+                '-' -> {
+                    if (!notToDo) cellsList[cellsCounter]--
+                    if (haveLoop) returns[loopCounter - 1]++
+                }
+                '<' -> {
+                    if (!notToDo) cellsCounter--
+                    if (haveLoop) returns[loopCounter - 1]++
+                }
+                '>' -> {
+                    if (!notToDo) cellsCounter++
+                    if (haveLoop) returns[loopCounter - 1]++
+                }
+                ' ' -> if (haveLoop) returns[loopCounter - 1]++
+                '[' -> if (cellsList[cellsCounter] != 0) {
+                    haveLoop = true     //если ячейка не равна 0, то начинается цикл
+                    returns.add(0)
+                    loopCounter++
+                    returns[loopCounter - 1] = 0
+                } else {
+                    notToDo = true
+                    if (haveLoop) returns[loopCounter - 1]++
+                }
+                ']' -> {
+                    if (notToDo && haveLoop) {
+                        returns[loopCounter - 1]++
+                        notToDo = false
+                        command++
+                        wasExtraPlus = true
+                    }
+                    else {
+                        if (cellsList[cellsCounter] == 0 && !notToDo && haveLoop) {
+                            loopCounter--
+                            returns.remove(returns.last())
+                        }
+                        notToDo = false
+                        if (loopCounter == 0) haveLoop = false  //если ячейка равна 0 и больше нет никаких вложенных циклов, то общий цикл заканчивается
+                    }
+                }
+            }
+            if (haveLoop && commands[command] == ']') {
+                command -= returns[loopCounter - 1]      //если операции идут в [], то возвращаемся назад
+                returns[loopCounter - 1] = 0
+            } else if (!wasExtraPlus) command++                   //если нет, то переходим к следующей операции
+            allCommands++
+            //УБРАТЬ ПОСЛЕ ПОЛНОГО ВЫПОЛНЕНИЯ
+            if (command == 42) {
+                reached = true
+            }
+            //
+        }
+    } catch (e: IndexOutOfBoundsException) {   //если происходит заход за границу конвейера, то ловим исключение
+        throw IllegalStateException()       //и бросаем нужное нам исключение, чтобы программа вернула его
+    }
+    return cellsList
+}
