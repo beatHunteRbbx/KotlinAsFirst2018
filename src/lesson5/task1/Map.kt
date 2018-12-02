@@ -151,12 +151,11 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val answerMap = mutableMapOf<String, Double>()
-    val numberOfProducts = mutableMapOf<String, Double>()
+    val numberOfProducts = mutableMapOf<String, Int>()
     val pricesOfProducts = mutableMapOf<String, Double>()
     for ((product, price) in stockPrices) {
-        numberOfProducts.put(product, stockPrices.count { it.first == product }.toDouble())
-        if (pricesOfProducts.contains(product)) pricesOfProducts[product] = pricesOfProducts[product]!! + price
-        else pricesOfProducts[product] = price
+        numberOfProducts[product] = (numberOfProducts[product] ?: 0) + 1
+        pricesOfProducts[product] = (pricesOfProducts[product] ?: 0.0) + price
     }
     numberOfProducts.forEach {
         if (pricesOfProducts.contains(it.key)) answerMap[it.key] = pricesOfProducts[it.key]!! / it.value
@@ -217,7 +216,36 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    var friendsMap = friends.toMutableMap()
+    //вершины - ключи. добавляем ключ и их значения в массив, если определенное имя уже есть, то не добавляем его. Нужно сделать проверку на это
+    //поробовать обход графа в глубину
+    if (friends.isEmpty()) return friends
+    val answerMap = friends.toMutableMap()
+    for (pair in friends) {
+        for (friend in pair.value) {
+            if (!friends.contains(friend)) answerMap[friend] = emptySet()
+        }
+    }
+
+    var nodes = mutableMapOf<String, Boolean>() //Создаем мапу nodes
+    friends.forEach { nodes[it.key] = false }   //заполняем nodes: ключ - Имя (узел графа), значение - узел не посещён
+
+    var allNames = mutableSetOf<String>()       //Создаем сэт allNames  для всех имен
+    friends.forEach { allNames.add(it.key) }    //загоняем ВСЕ имена из мапы в allNames.
+
+    for (pair in friends) {
+        nodes[pair.key] = true           //помечаем что узел, который мы только что выбрали, посещён
+        for (friend in pair.value) {
+            if (nodes[friend] == true) continue //если узел уже посещён сразу же переходим к следующему другу
+            if (friend == pair.key) break
+            else {
+                answerMap[pair.key] = pair.value.union(friends[friend]!!)    //нужно как-то избавиться от nullPointerException
+                nodes[friend] = true
+            }
+        }
+    }
+    return answerMap
+
+    /*var friendsMap = friends.toMutableMap()
     val answerMap = friends.toMutableMap()
     for (person in friendsMap) {
         for (friend in person.value) {
@@ -226,13 +254,13 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
     }
     friendsMap = answerMap
     for (person in friendsMap) {
-        for (friend in person.value) if (friendsMap.containsKey(friend)) answerMap[person.key] = person.value.union(friendsMap[friend]!!)
+        for (friend in person.value) if (friendsMap.containsKey(friend)) answerMap[person.key] = person.value.union(friendsMap[friend]!!) //нужно сравнивать не через одно рукопожатие, а через любое количество
     }
     friendsMap = answerMap
     for ((person, comrades) in friendsMap) {
         for (friend in comrades) if (friend == person) answerMap[person] = answerMap[person]!! - friend
     }
-    return answerMap
+    return answerMap*/
 }
 
 /**
@@ -286,7 +314,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean =
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val repeats = mutableMapOf<String, Int>()
     for (letter in list) {
-        repeats[letter] = repeats.getOrDefault(letter, 0)  + 1
+        repeats[letter] = repeats.getOrDefault(letter, 0) + 1
     }
     return repeats.filter { it.value > 1 }
 }
@@ -301,18 +329,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    var flag = false
-    mainLoop@ for (i in 0 until words.size) {
+   for (i in 0 until words.size) {
         for (j in i + 1 until words.size) {
-            if (words[i].all { words[j].contains(it) } &&
-                words[j].all { words[i].contains(it)}) {
-                flag = true
-                break@mainLoop
+            if (words[i].toList().sorted() == words[j].toList().sorted()) {
+                return true
             }
-            else continue
         }
     }
-    return flag
+    return false
 }
 
 /**
@@ -332,7 +356,7 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> { // создать мапу: ключ - сумма двух чисел, значение - пара(индекс первого, индекс второго)
     var answer = Pair(-1, -1)
     if (list.isNotEmpty()) {
         mainLoop@ for (i in 0 until list.size - 1) {
