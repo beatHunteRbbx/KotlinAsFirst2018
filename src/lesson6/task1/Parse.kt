@@ -273,9 +273,10 @@ fun mostExpensive(description: String): String {
     var (product, price) = Pair("", 0.0)
     try {
         for (member in productsWithPrice) {
-            if (member.trim().split(" ").size % 2 != 0) throw NumberFormatException()
-            product = member.trim().split(" ")[0]
-            price = member.trim().split(" ")[1].toDouble()
+            val splitMember = member.trim().split(" ")
+            if (splitMember.size % 2 != 0) throw NumberFormatException()
+            product = splitMember[0]
+            price = splitMember[1].toDouble()
             if (price < 0) throw NumberFormatException()
             if (price > maxPrice) {
                 mostExpensiveProduct = product
@@ -283,8 +284,8 @@ fun mostExpensive(description: String): String {
             }
         }
     }
-    catch (e: NumberFormatException){
-        ""
+    catch (e: NumberFormatException) {
+        return ""
     }
     return mostExpensiveProduct
 }
