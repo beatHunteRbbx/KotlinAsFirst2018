@@ -267,29 +267,26 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
-    return if (description.isNotEmpty()) {
-        var maxPrice = -1.0
-        var mostExpensiveProduct = ""
-        val productsWithPrice = description.split(";")
-        var (product, price) = Pair("", 0.0)
-        try {
-            for (member in productsWithPrice) {
-                if (member.trim().split(" ").size % 2 != 0) throw NumberFormatException()
-                product = member.trim().split(" ")[0]
-                price = member.trim().split(" ")[1].toDouble()
-                if (price < 0) throw NumberFormatException()
-                if (price > maxPrice) {
-                    mostExpensiveProduct = product
-                    maxPrice = price
-                }
+    var maxPrice = -1.0
+    var mostExpensiveProduct = ""
+    val productsWithPrice = description.split(";")
+    var (product, price) = Pair("", 0.0)
+    try {
+        for (member in productsWithPrice) {
+            if (member.trim().split(" ").size % 2 != 0) throw NumberFormatException()
+            product = member.trim().split(" ")[0]
+            price = member.trim().split(" ")[1].toDouble()
+            if (price < 0) throw NumberFormatException()
+            if (price > maxPrice) {
+                mostExpensiveProduct = product
+                maxPrice = price
             }
-            mostExpensiveProduct
-        }
-        catch (e: NumberFormatException){
-            ""
         }
     }
-    else ""
+    catch (e: NumberFormatException){
+        ""
+    }
+    return mostExpensiveProduct
 }
 
 /**
