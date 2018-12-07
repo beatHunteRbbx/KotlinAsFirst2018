@@ -360,6 +360,8 @@ fun hasAnagrams(words: List<String>): Boolean {
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> { // создать мапу: ключ - сумма двух чисел, значение - пара(индекс первого, индекс второго)
     var answer = Pair(-1, -1)
     if (list.isNotEmpty()) {
+        val mapOfReminders = mutableMapOf<Int, Int>()
+        for (i in 0 until  list.size) mapOfReminders[number - list[i]] = i
         mainLoop@ for (i in 0 until list.size - 1) {
             for (j in i + 1 until list.size) {
                  if (list[i] + list[j] == number) {
