@@ -82,7 +82,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    var mistakesAndCorrections = mapOf(
+    val mistakesAndCorrections = mapOf(
             "Жы" to "Жи", "жы" to "жи", "жЫ" to "жИ", "ЖЫ" to "ЖИ",
             "Шы" to "Ши", "шы" to "ши", "шЫ" to "шИ", "ШЫ" to "ШИ",
             "Жя" to "Жа", "жя" to "жа", "жЯ" to "жА", "ЖЯ" to "ЖА",
@@ -94,7 +94,7 @@ fun sibilants(inputName: String, outputName: String) {
             "Чю" to "Чу", "чю" to "чу", "чЮ" to "чУ", "ЧЮ" to "ЧУ",
             "Щю" to "Щу", "щю" to "щу", "щЮ" to "щУ", "ЩЮ" to "ЩУ")
     val fileLines = File(inputName).readLines()
-    var writer = File(outputName).bufferedWriter()
+    val writer = File(outputName).bufferedWriter()
     for (line in fileLines) {
         var correctedLine = line
         var hasMistake = false
