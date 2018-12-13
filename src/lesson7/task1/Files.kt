@@ -82,7 +82,32 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    var mistakesAndCorrections = mapOf(
+            "Жы" to "Жи", "жы" to "жи", "жЫ" to "жИ", "ЖЫ" to "ЖИ",
+            "Шы" to "Ши", "шы" to "ши", "шЫ" to "шИ", "ШЫ" to "ШИ",
+            "Жя" to "Жа", "жя" to "жа", "жЯ" to "жА", "ЖЯ" to "ЖА",
+            "Шя" to "Ша", "шя" to "ша", "шЯ" to "шА", "ШЯ" to "ША",
+            "Жю" to "Жу", "жю" to "жу", "жЮ" to "жУ", "ЖЮ" to "ЖУ",
+            "Шю" to "Шу", "шю" to "шу", "шЮ" to "шУ", "ШЮ" to "ШУ",
+            "Чя" to "Ча", "чя" to "ча", "чЯ" to "чА", "ЧЯ" to "ЧА",
+            "Щя" to "Ща", "щя" to "ща", "щЯ" to "щЯ", "ЩЯ" to "ЩА",
+            "Чю" to "Чу", "чю" to "чу", "чЮ" to "чУ", "ЧЮ" to "ЧУ",
+            "Щю" to "Щу", "щю" to "щу", "щЮ" to "щУ", "ЩЮ" to "ЩУ")
+    val fileLines = File(inputName).readLines()
+    var writer = File(outputName).bufferedWriter()
+    for (line in fileLines) {
+        var correctedLine = line
+        var hasMistake = false
+        for (element in mistakesAndCorrections) {
+            if (Regex(element.key).containsMatchIn(line)) {
+                correctedLine = Regex(element.key).replace(correctedLine, element.value)
+                hasMistake = true
+            }
+        }
+        if (hasMistake) writer.write((correctedLine + "\n"))
+        else writer.write(line + "\n")
+    }
+    writer.close()
 }
 
 /**
