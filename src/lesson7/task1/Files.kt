@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.absoluteValue
 
 /**
  * Пример
@@ -131,16 +132,12 @@ fun centerFile(inputName: String, outputName: String) {
     val fileLines = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
     var maxLength = -1
-    for (line in fileLines) {
-        if (maxLength < line.length) maxLength = line.length        //находим самую длинную строку
-    }
+    for (line in fileLines) if (maxLength < line.length) maxLength = line.length        //находим самую длинную строку
     for (line in fileLines) {
         val writeLine = StringBuilder()
         val lineWithoutSpaces = line.replace(Regex(""" {2,}|^ | $"""), "")  //удаляем все пробелы в начале и в конце строки
         val onlySpacesLength = maxLength - lineWithoutSpaces.length         //вычисляем длину строки без пробелов
-        for (i in 0 until onlySpacesLength / 2) {
-            writeLine.append(" ")
-        }
+        for (i in 0 until onlySpacesLength / 2) writeLine.append(" ")
         writeLine.append(lineWithoutSpaces)
         writer.write(writeLine.toString() + "\n")
     }
@@ -175,7 +172,30 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    //находим самую длинную строку
+    //в цикле:
+    //вычисляем длину строки без пробелов. вычитаем из максимальной длины строки. делим полученное число на кол-во слов в строке. столько пробелов нужно будет вставить после каждого слова
+    val fileLines = File(inputName).readLines()
+    var writer = File(outputName).bufferedWriter()
+    var maxLength = -1
+    for (line in fileLines) if (maxLength < line.length) maxLength = line.length       //находим самую длинную строку
+    for (line in fileLines) {
+        if (line.isEmpty()) {
+            writer.newLine()
+            continue
+        }
+        var writeLine = StringBuilder()
+        var wordsInLine = line.split(Regex("""\s+""")).drop(1)      //с помощью drop удаляем первый элемент в списке слов - ""
+        var lineWithoutSpaces = line.replace(Regex("""\s+"""), "")
+        var numberOfSpaces = (maxLength - lineWithoutSpaces.length) / wordsInLine.size
+        for (word in wordsInLine) {
+            writeLine.append(word)
+            for (i in 0 until numberOfSpaces) writeLine.append(" ")
+        }
+        writer.write(writeLine.toString().trim() + "\n")
+    }
+    writer.close()
+    //НЕРЕШЕННАЯ ПРОБЛЕМА: ВСЕ СТРОКИ КРОМЕ САМОЙ ДЛИННОЙ НЕ ВЫРАВНИВАЮТСЯ ПО ШИРИНЕ
 }
 
 /**
