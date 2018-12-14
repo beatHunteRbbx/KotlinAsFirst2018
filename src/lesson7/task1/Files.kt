@@ -138,8 +138,8 @@ fun centerFile(inputName: String, outputName: String) {
     for (line in fileLines) {
         val writeLine = StringBuilder()
         val lineWithoutSpaces = line.replace(Regex(""" {2,}|^ | $"""), " ").trim()  //удаляем все пробелы в начале и в конце строки
-        val onlySpacesLength = maxLength - lineWithoutSpaces.length         //вычисляем длину строки без пробелов
-        for (i in 0 until onlySpacesLength / 2) writeLine.append(" ")
+        val onlySpacesLength = maxLength - lineWithoutSpaces.length         //вычисляем длину строки без символов. только пробелы
+        if (line.length != maxLength) for (i in 0 until onlySpacesLength / 2) writeLine.append(" ")
         writeLine.append(lineWithoutSpaces)
         writer.write(writeLine.toString() + "\n")
     }
