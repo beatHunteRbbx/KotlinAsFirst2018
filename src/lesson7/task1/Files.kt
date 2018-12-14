@@ -217,10 +217,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    //занести ВСЕ слова из текста в set
-    //проходиться по всему тексту и с помощью регекса посчитать все сопадения
-    //занести все совпадения в лист
-    //сделать мапу: ключи - лист слов, значения - лист кол-ва совпадений
     val fileLines = File(inputName).readLines()
     val allWordsInText = mutableSetOf<String>()
     val numbersOfAllWordsInText = mutableMapOf<String, Int>()
