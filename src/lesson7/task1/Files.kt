@@ -93,7 +93,8 @@ fun sibilants(inputName: String, outputName: String) {
             "Чя" to "Ча", "чя" to "ча", "чЯ" to "чА", "ЧЯ" to "ЧА",
             "Щя" to "Ща", "щя" to "ща", "щЯ" to "щЯ", "ЩЯ" to "ЩА",
             "Чю" to "Чу", "чю" to "чу", "чЮ" to "чУ", "ЧЮ" to "ЧУ",
-            "Щю" to "Щу", "щю" to "щу", "щЮ" to "щУ", "ЩЮ" to "ЩУ")
+            "Щю" to "Щу", "щю" to "щу", "щЮ" to "щУ", "ЩЮ" to "ЩУ",
+            "Щы" to "Щи", "щы" to "щи", "щЫ" to "щИ", "ЩЫ" to "ЩИ")
     val fileLines = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
     for (line in fileLines) {
