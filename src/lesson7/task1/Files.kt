@@ -216,7 +216,48 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> = TODO()
+fun top20Words(inputName: String): Map<String, Int> {
+    //занести ВСЕ слова из текста в set
+    //проходиться по всему тексту и с помощью регекса посчитать все сопадения
+    //занести все совпадения в лист
+    //сделать мапу: ключи - лист слов, значения - лист кол-ва совпадений
+    val fileLines = File(inputName).readLines()
+    val allWordsInText = mutableSetOf<String>()
+    val numbersOfAllWordsInText = mutableMapOf<String, Int>()
+    val answerMap = mutableMapOf<String, Int>()
+    for (line in fileLines) {                                         //заносим ВСЕ слова из текста в set allWordsInText
+        var wordsInLine = line.split(Regex("""[^a-zA-Zа-яА-ЯёЁ]"""))
+        wordsInLine = wordsInLine.filter { it != "" }
+        for (word in wordsInLine) allWordsInText.add(word.toLowerCase())
+    }
+    for (word in allWordsInText) numbersOfAllWordsInText[word] = 0    //заполняем мапу нулями, чтобы дальне не было null-ошибки
+    for (line in fileLines) {
+        for (checkedWord in allWordsInText) {   //считаем кол-во всех совпадений с каждым словом из allWordsInText
+            var counterOfWords = 0
+            val wordsInLine = line.split(Regex("""[^a-zA-Zа-яА-ЯёЁ]"""))
+            for (word in wordsInLine) if (checkedWord.toLowerCase() == word.toLowerCase()) counterOfWords++
+            if (counterOfWords > 0) {
+                numbersOfAllWordsInText[checkedWord] = numbersOfAllWordsInText[checkedWord]!! + counterOfWords
+            }
+        }
+    }
+    if (numbersOfAllWordsInText.size < 20) return numbersOfAllWordsInText.filter { it.value > 1 }
+    else {
+        var counter = 0
+        while (counter < 20) {          //выбираем первые 20 самых часто встречаемых слов в тексте и заносим их с повторениями в answerMap
+            var maxNumber = -1
+            var maxWord = ""            //слово с макимальным количеством повторений
+            for (element in numbersOfAllWordsInText) if (maxNumber < element.value) {
+                maxNumber = element.value
+                maxWord = element.key
+            }
+            answerMap[maxWord] = maxNumber
+            numbersOfAllWordsInText.remove(maxWord)
+            counter++
+        }
+        return answerMap
+    }
+}
 
 /**
  * Средняя
