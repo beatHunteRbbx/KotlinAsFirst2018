@@ -180,19 +180,31 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val fileLines = File(inputName).readLines()
     var writer = File(outputName).bufferedWriter()
     var maxLength = -1
-    for (line in fileLines) if (maxLength < line.length) maxLength = line.length       //находим самую длинную строку
+    for (line in fileLines) {
+        if (maxLength < line.trim().length) {
+            maxLength = line.trim().length
+        }
+    }       //находим самую длинную строку
     for (line in fileLines) {
         if (line.isEmpty()) {
             writer.newLine()
             continue
         }
         var writeLine = StringBuilder()
-        var wordsInLine = line.split(Regex("""\s+""")).drop(1)      //с помощью drop удаляем первый элемент в списке слов - ""
-        var lineWithoutSpaces = line.replace(Regex("""\s+"""), "")
+        var wordsInLine = line.trim().split(Regex(""" +"""))     //с помощью drop удаляем первый элемент в списке слов - ""
+        var lineWithoutSpaces = line.trim().replace(Regex(""" +"""), "")
         var numberOfSpaces = (maxLength - lineWithoutSpaces.length) / wordsInLine.size
+        if (numberOfSpaces == 0) numberOfSpaces = 1
         for (word in wordsInLine) {
             writeLine.append(word)
             for (i in 0 until numberOfSpaces) writeLine.append(" ")
+        }
+        //теперь нужно прибавлять по одному пробелу после каждого слова, пока длина строки не станет равна максимальной длине
+        var i = 0
+        while (writeLine.trim().length != maxLength) {          //ПРОБЛЕМА: БЕСКОНЕЧНЫЙ ЦИКЛ
+            if (i == writeLine.trim().length) i = 0
+            i++
+            if (writeLine[i] != ' ' && writeLine[i + 1] == ' ') writeLine.insert(i + 1, ' ')
         }
         writer.write(writeLine.toString().trim() + "\n")
     }
