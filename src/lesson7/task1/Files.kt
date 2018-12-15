@@ -137,9 +137,9 @@ fun centerFile(inputName: String, outputName: String) {
     for (line in fileLines) if (maxLength < line.length) maxLength = line.length        //находим самую длинную строку
     for (line in fileLines) {
         val writeLine = StringBuilder()
-        val lineWithoutSpaces = line.replace(Regex("""^ | $"""), "").trim()  //удаляем все пробелы в начале и в конце строки
-        val onlySpacesLength = maxLength - lineWithoutSpaces.length         //вычисляем длину строки без символов. только пробелы
-        if (line.length != maxLength) for (i in 0 until onlySpacesLength / 2) writeLine.append(" ")
+        val lineWithoutSpaces = line.trim()  //удаляем все пробелы в начале и в конце строки
+        val onlySpacesLength = maxLength - lineWithoutSpaces.length     //вычисляем длину строки без символов. только пробелы
+        if (line.length < maxLength ) for (i in 0 until onlySpacesLength / 2) writeLine.append(" ")
         writeLine.append(lineWithoutSpaces)
         writer.write(writeLine.toString() + "\n")
     }
