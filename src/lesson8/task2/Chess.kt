@@ -128,8 +128,8 @@ fun rookTrajectory(start: Square, end: Square): List<Square> =
 fun bishopMoveNumber(start: Square, end: Square): Int =
         if (!start.inside() || !end.inside()) throw  IllegalArgumentException()
         else if (start == end) 0
-        else if (   start.column % 2 != end.row % 2 ||
-                    start.row % 2 != end.column % 2) -1
+        else if (   (start.column % 2 == end.column % 2 && start.row % 2 != end.row % 2) ||
+                    (start.column % 2 != end.column % 2 && start.row % 2 == end.row % 2)) -1
         else if (abs(start.column - start.row) == abs(end.column - end.row)) 1
         else 2
 
@@ -188,10 +188,14 @@ fun kingMoveNumber(start: Square, end: Square): Int =
         else if (start.column == end.column) abs(end.row - start.row)
         else if (start.row == end.row) abs(end.column - start.column)
         else {
-            var hypotenuse = abs(end.row - start.row)
-            val betweenDestinationSquare = Square(start.column + hypotenuse, start.row + hypotenuse)
-            if (betweenDestinationSquare.column == end.column) hypotenuse += abs(end.column - betweenDestinationSquare.column)
-            else if (betweenDestinationSquare.row == end.row) hypotenuse += abs(end.row - betweenDestinationSquare.row)
+            var hypotenuse = 0
+            if (start.row > start.column) hypotenuse += abs(end.column - start.column)
+            else if (start.column > start.row) hypotenuse += abs(end.row - start.row)
+            else hypotenuse = abs(end.row - start.row)
+            val betweenDestinationSquare = Square(start.column - hypotenuse, start.row - hypotenuse)
+            if (betweenDestinationSquare.column == end.column) hypotenuse += abs(end.row - betweenDestinationSquare.row)
+            else if (betweenDestinationSquare.row == end.row) hypotenuse += abs(end.column - betweenDestinationSquare.column)
+            else if (hypotenuse == 0) hypotenuse ++
             hypotenuse
         }
 
