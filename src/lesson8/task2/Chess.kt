@@ -152,7 +152,16 @@ fun bishopMoveNumber(start: Square, end: Square): Int =
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
-
+        /*if (!start.inside() || !end.inside()) throw  IllegalArgumentException()
+        else if (start == end) listOf(Square(start.column, start.row))
+        else if (   start.column % 2 != end.row % 2 ||
+                    start.row % 2 != end.column % 2) emptyList()
+        else if (abs(start.column - start.row) == abs(end.column - end.row)) listOf(
+                Square(start.column, start.row),
+                Square(end.column, end.row)
+        )
+        else listOf(Square(start.column, start.row),
+                    )*/
 /**
  * Средняя
  *
@@ -180,7 +189,7 @@ fun kingMoveNumber(start: Square, end: Square): Int =
         else if (start.row == end.row) abs(end.column - start.column)
         else {
             var hypotenuse = abs(end.row - start.row)
-            var betweenDestinationSquare = Square(start.column + hypotenuse, start.row + hypotenuse)
+            val betweenDestinationSquare = Square(start.column + hypotenuse, start.row + hypotenuse)
             if (betweenDestinationSquare.column == end.column) hypotenuse += abs(end.column - betweenDestinationSquare.column)
             else if (betweenDestinationSquare.row == end.row) hypotenuse += abs(end.row - betweenDestinationSquare.row)
             hypotenuse
