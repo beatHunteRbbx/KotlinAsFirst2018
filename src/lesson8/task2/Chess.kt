@@ -37,7 +37,8 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square =
-        if (Regex("""[^a-h1-8]""").containsMatchIn(notation) || notation.isEmpty()) throw  IllegalArgumentException()
+        if (    !Regex("""[a-h][1-8]""").containsMatchIn(notation) ||
+                notation.isEmpty()) throw  IllegalArgumentException()
         else {
             val numbers = mapOf('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
             Square(numbers[notation[0]]!!, notation[1].toString().toInt())
