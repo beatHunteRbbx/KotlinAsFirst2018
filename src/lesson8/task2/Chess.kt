@@ -22,7 +22,7 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String =
-            if (column > 8 || row > 8 || column < 1 || row < 1) ""
+            if (!inside()) ""
             else {
                 val letters = listOf("a", "b", "c", "d", "e", "f", "g", "h")
                 letters[column - 1] + row.toString()
