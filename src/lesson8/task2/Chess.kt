@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson8.task2
 
+import kotlin.math.abs
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -123,7 +125,13 @@ fun rookTrajectory(start: Square, end: Square): List<Square> =
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int =
+        if (!start.inside() || !end.inside()) throw  IllegalArgumentException()
+        else if (start == end) 0
+        else if (   start.column % 2 != end.row % 2 ||
+                    start.row % 2 != end.column % 2) -1
+        else if (abs(start.column - start.row) == abs(end.column - end.row)) 1
+        else 2
 
 /**
  * Сложная
