@@ -189,9 +189,9 @@ fun kingMoveNumber(start: Square, end: Square): Int =
         else if (start.row == end.row) abs(end.column - start.column)
         else {
             var hypotenuse = 0
-            if (start.row > start.column) hypotenuse += abs(end.column - start.column)
-            else if (start.column > start.row) hypotenuse += abs(end.row - start.row)
-            else hypotenuse = abs(end.row - start.row)
+            if (abs(start.row - end.row) > start.column - end.column) hypotenuse += abs(end.column - start.column)      //вычисление гипотенузы зависит точно не от стартовой позиции. можно попробовать разность между начальными и конечными координатами.
+            else if (abs(start.column - end.column) > abs(start.row - end.row)) hypotenuse += abs(end.row - start.row)
+            else hypotenuse = abs(end.row - start.row)  //fа нужно ли здесь это? в конечном варианте попробовать убрать
             val betweenDestinationSquare = Square(start.column - hypotenuse, start.row - hypotenuse)
             if (betweenDestinationSquare.column == end.column) hypotenuse += abs(end.row - betweenDestinationSquare.row)
             else if (betweenDestinationSquare.row == end.row) hypotenuse += abs(end.column - betweenDestinationSquare.column)

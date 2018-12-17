@@ -357,22 +357,20 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> { // создать мапу: ключ - сумма двух чисел, значение - пара(индекс первого, индекс второго)
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    //Принцип алгоритма такой:
+    //Дан список: 8, 4, 3, 12, 11, 6, 21     number = 7
+    //Идем по списку с number
+    //Из 7 вычитаем 8. Получается '-1'. '-1' мы не видели в мапе, значит добавляем 8 в мапу: ключ - '8', значение - индекс '8' списке. Идём дальше...
+    //Из 7 вычитаем 4. Получается 3. '3' мы не видели в мапе, значит добавляем 4 в мапу
+    //Из 7 вычитаем 3. Получается 4. '4' мы ВИДЕЛИ в мапе, значит в этой паре в мапе содержится идекс подходящей пары для тройки.
+    //Pair.first = индекс 4; Pair.second = индекс 3
+    val mapOfDifferences = mutableMapOf<Int, Int>()
     var answer = Pair(-1, -1)
-    if (list.isNotEmpty()) {
-        val mapOfReminders = mutableMapOf<Int, Int>()
-        for (i in 0 until  list.size) mapOfReminders[number - list[i]] = i
-        mainLoop@ for (i in 0 until list.size - 1) {
-            for (j in i + 1 until list.size) {
-                 if (list[i] + list[j] == number) {
-                    answer = Pair(i, j)
-                    break@mainLoop
-                 }
-                else answer = Pair(-1, -1)
-            }
-        }
+    for (i in 0 until list.size) {
+        if (mapOfDifferences.contains(number - list[i])) answer = Pair(mapOfDifferences[number - list[i]]!!, i)
+        else mapOfDifferences[list[i]] = i
     }
-    else answer = Pair(-1, -1)
     return answer
 }
 
