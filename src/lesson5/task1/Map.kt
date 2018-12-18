@@ -225,22 +225,22 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
             if (!friends.contains(friend)) answerMap[friend] = emptySet()
         }
     }
-
-    var nodes = mutableMapOf<String, Boolean>() //Создаем мапу nodes
+    val nodes = mutableMapOf<String, Boolean>() //Создаем мапу nodes
     friends.forEach { nodes[it.key] = false }   //заполняем nodes: ключ - Имя (узел графа), значение - узел не посещён
-
-    var allNames = mutableSetOf<String>()       //Создаем сэт allNames  для всех имен
-    friends.forEach { allNames.add(it.key) }    //загоняем ВСЕ имена из мапы в allNames.
 
     for (pair in friends) {
         nodes[pair.key] = true           //помечаем что узел, который мы только что выбрали, посещён
         for (friend in pair.value) {
-            if (nodes[friend] == true) continue //если узел уже посещён сразу же переходим к следующему другу
             if (friend == pair.key) break
-            else {
-                answerMap[pair.key] = pair.value.union(friends[friend]!!)    //нужно как-то избавиться от nullPointerException
+            else if (friends[friend] != null) {
+                answerMap[pair.key] = pair.value.union(friends[friend]!!)
                 nodes[friend] = true
             }
+        }
+    }
+    for (pair in answerMap) {
+        for (person in pair.value) {
+            if (person == pair.key) answerMap[pair.key] = pair.value - person
         }
     }
     return answerMap
