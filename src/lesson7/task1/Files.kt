@@ -233,7 +233,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val fileLines = File(inputName).readLines()
     val allWordsInText = mutableSetOf<String>()
-    val numbersOfAllWordsInText = mutableMapOf<String, Int>()
+    var numbersOfAllWordsInText = mutableMapOf<String, Int>()
     val answerMap = mutableMapOf<String, Int>()
     for (line in fileLines) {                                         //заносим ВСЕ слова из текста в set allWordsInText
         var wordsInLine = line.split(Regex("""[^a-zA-Zа-яА-ЯёЁ]"""))
@@ -244,29 +244,23 @@ fun top20Words(inputName: String): Map<String, Int> {
     for (line in fileLines) {
         for (checkedWord in allWordsInText) {   //считаем кол-во всех совпадений с каждым словом из allWordsInText
             var counterOfWords = 0
-            val wordsInLine = line.split(Regex("""[^a-zA-Zа-яА-ЯёЁ]"""))
-            for (word in wordsInLine) if (checkedWord.toLowerCase() == word.toLowerCase()) counterOfWords++
+            val wordsInLine = line.split(Regex("""[^a-zA-Zа-яА-ЯёЁ]""")).filter { it != "" }
+            for (word in wordsInLine) {
+                if (checkedWord.toLowerCase() == word.toLowerCase()) counterOfWords++
+            }
             if (counterOfWords > 0) {
                 numbersOfAllWordsInText[checkedWord] = numbersOfAllWordsInText[checkedWord]!! + counterOfWords
             }
         }
     }
-    if (numbersOfAllWordsInText.size < 20) return numbersOfAllWordsInText.filter { it.value > 1 }
+    if (numbersOfAllWordsInText.size < 20) return numbersOfAllWordsInText
     else {
-        var counter = 0
-        while (counter < 20) {          //выбираем первые 20 самых часто встречаемых слов в тексте и заносим их с повторениями в answerMap
-            var maxNumber = -1
-            var maxWord = ""            //слово с макимальным количеством повторений
-            for (element in numbersOfAllWordsInText) if (maxNumber < element.value) {
-                maxNumber = element.value
-                maxWord = element.key
-            }
-            answerMap[maxWord] = maxNumber
-            numbersOfAllWordsInText.remove(maxWord)
-            counter++
+        val sortedNumbersOfAllWordsInText = numbersOfAllWordsInText.toList().sortedByDescending { it.second }
+        for (i in 0..19) {
+            answerMap[sortedNumbersOfAllWordsInText[i].first] = sortedNumbersOfAllWordsInText[i].second
         }
-        return answerMap
     }
+    return answerMap
 }
 
 /**
