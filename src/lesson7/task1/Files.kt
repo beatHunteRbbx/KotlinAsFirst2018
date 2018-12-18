@@ -3,7 +3,6 @@
 package lesson7.task1
 
 import java.io.File
-import kotlin.math.absoluteValue
 
 /**
  * Пример
@@ -84,31 +83,25 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 fun sibilants(inputName: String, outputName: String) {
     val mistakesAndCorrections = mapOf(
-            "Жы" to "Жи", "жы" to "жи", "жЫ" to "жИ", "ЖЫ" to "ЖИ",
-            "Шы" to "Ши", "шы" to "ши", "шЫ" to "шИ", "ШЫ" to "ШИ",
-            "Жя" to "Жа", "жя" to "жа", "жЯ" to "жА", "ЖЯ" to "ЖА",
-            "Шя" to "Ша", "шя" to "ша", "шЯ" to "шА", "ШЯ" to "ША",
-            "Жю" to "Жу", "жю" to "жу", "жЮ" to "жУ", "ЖЮ" to "ЖУ",
-            "Шю" to "Шу", "шю" to "шу", "шЮ" to "шУ", "ШЮ" to "ШУ",
-            "Чя" to "Ча", "чя" to "ча", "чЯ" to "чА", "ЧЯ" to "ЧА",
-            "Щя" to "Ща", "щя" to "ща", "щЯ" to "щА", "ЩЯ" to "ЩА",
-            "Чю" to "Чу", "чю" to "чу", "чЮ" to "чУ", "ЧЮ" to "ЧУ",
-            "Щю" to "Щу", "щю" to "щу", "щЮ" to "щУ", "ЩЮ" to "ЩУ",
-            "Чы" to "Чи", "чы" to "чи", "чЫ" to "чИ", "ЧЫ" to "ЧИ",
-            "Щы" to "Щи", "щы" to "щи", "щЫ" to "щИ", "ЩЫ" to "ЩИ")
+            'ы' to 'и', 'Ы' to 'И',
+            'я' to 'а', 'Я' to 'А',
+            'ю' to 'у', 'Ю' to 'У'
+    )
     val fileLines = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
     for (line in fileLines) {
-        var correctedLine = line
-        var hasMistake = false
-        for (element in mistakesAndCorrections) {
-            if (Regex(element.key).containsMatchIn(line)) {
-                correctedLine = Regex(element.key).replace(correctedLine, element.value)
-                hasMistake = true
+        val charsInLine = line.toMutableList()
+        val correctedLine = StringBuilder()
+        for (i in 0 until charsInLine.size) {
+            if (    charsInLine[i].toLowerCase() == 'ш' ||
+                    charsInLine[i].toLowerCase() == 'ж' ||
+                    charsInLine[i].toLowerCase() == 'щ' ||
+                    charsInLine[i].toLowerCase() == 'ч' ) {
+                charsInLine[i + 1] = mistakesAndCorrections.getOrDefault(charsInLine[i + 1], charsInLine[i + 1])
             }
+            correctedLine.append(charsInLine[i])
         }
-        if (hasMistake) writer.write((correctedLine + "\n"))
-        else writer.write(line + "\n")
+        writer.write((correctedLine.toString() + "\n"))
     }
     writer.close()
 }
@@ -178,7 +171,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     //в цикле:
     //вычисляем длину строки без пробелов. вычитаем из максимальной длины строки. делим полученное число на кол-во слов в строке. столько пробелов нужно будет вставить после каждого слова
     val fileLines = File(inputName).readLines()
-    var writer = File(outputName).bufferedWriter()
+    val writer = File(outputName).bufferedWriter()
     var maxLength = -1
     for (line in fileLines) {
         if (maxLength < line.trim().length) {
@@ -190,9 +183,9 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             writer.newLine()
             continue
         }
-        var writeLine = StringBuilder()
-        var wordsInLine = line.trim().split(Regex(""" +"""))     //с помощью drop удаляем первый элемент в списке слов - ""
-        var lineWithoutSpaces = line.trim().replace(Regex(""" +"""), "")
+        val writeLine = StringBuilder()
+        val wordsInLine = line.trim().split(Regex(""" +"""))     //с помощью drop удаляем первый элемент в списке слов - ""
+        val lineWithoutSpaces = line.trim().replace(Regex(""" +"""), "")
         var numberOfSpaces = (maxLength - lineWithoutSpaces.length) / wordsInLine.size
         if (numberOfSpaces == 0) numberOfSpaces = 1
         for (word in wordsInLine) {
@@ -233,7 +226,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val fileLines = File(inputName).readLines()
     val allWordsInText = mutableSetOf<String>()
-    var numbersOfAllWordsInText = mutableMapOf<String, Int>()
+    val numbersOfAllWordsInText = mutableMapOf<String, Int>()
     val answerMap = mutableMapOf<String, Int>()
     for (line in fileLines) {                                         //заносим ВСЕ слова из текста в set allWordsInText
         var wordsInLine = line.split(Regex("""[^a-zA-Zа-яА-ЯёЁ]"""))
