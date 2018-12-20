@@ -92,7 +92,7 @@ fun sibilants(inputName: String, outputName: String) {
     for (line in fileLines) {
         val charsInLine = line.toMutableList()
         val correctedLine = StringBuilder()
-        for (i in 0 until charsInLine.size) {
+        for (i in 0 until charsInLine.size - 1) {
             if (    charsInLine[i].toLowerCase() == 'ш' ||
                     charsInLine[i].toLowerCase() == 'ж' ||
                     charsInLine[i].toLowerCase() == 'щ' ||
@@ -101,6 +101,7 @@ fun sibilants(inputName: String, outputName: String) {
             }
             correctedLine.append(charsInLine[i])
         }
+        correctedLine.append(charsInLine.last())
         writer.write((correctedLine.toString() + "\n"))
     }
     writer.close()
@@ -127,7 +128,7 @@ fun centerFile(inputName: String, outputName: String) {
     val fileLines = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
     var maxLength = -1
-    for (line in fileLines) if (maxLength < line.length) maxLength = line.length        //находим самую длинную строку
+    for (line in fileLines) if (maxLength < line.trim().length) maxLength = line.trim().length        //находим самую длинную строку
     for (line in fileLines) {
         val writeLine = StringBuilder()
         val lineWithoutSpaces = line.trim()  //удаляем все пробелы в начале и в конце строки
