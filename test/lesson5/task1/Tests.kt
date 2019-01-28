@@ -219,6 +219,24 @@ class Tests {
                         )
                 )
         )
+        assertEquals(
+                mapOf(
+                        "0" to setOf(),
+                        "1" to setOf("0"),
+                        "2" to setOf("0", "1", "3", "4"),
+                        "3" to setOf("4", "2", "1", "0"),
+                        "4" to setOf("2", "1", "0", "3")
+                ),
+                propagateHandshakes(
+                        mapOf(
+                                "0" to setOf(),
+                                "1" to setOf("0"),
+                                "2" to setOf("1", "3"),
+                                "3" to setOf("4"),
+                                "4" to setOf("2")
+                        )
+                )
+        )
     }
 
     @Test
