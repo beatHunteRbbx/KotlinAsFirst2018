@@ -2,10 +2,16 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
+
+class Square(val column: Int, val row: Int )
+
+fun main(args: Array<String>) {
+    val first = Square(3,5)
+    println(first)
+}
+
+
 
 /**
  * Точка на плоскости
@@ -118,7 +124,12 @@ fun diameter(vararg points: Point): Segment =
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val oy = abs(diameter.end.y - diameter.begin.y)
+    val ox = abs(diameter.end.x - diameter.begin.x)
+    val hypotenuse = sqr(ox) + sqr(oy)
+    return Circle(Point(ox / 2, oy / 2), sqrt(hypotenuse) / 2)
+}
 
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
