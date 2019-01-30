@@ -132,7 +132,7 @@ fun circleByDiameter(diameter: Segment): Circle {
 }
 
 /**
- * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
+ * Прямая, заданная точкой point и -углом наклона angle (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
  * или: y * cos(angle) = x * sin(angle) + b, где b = point.y * cos(angle) - point.x * sin(angle).
  * Угол наклона обязан находиться в диапазоне от 0 (включительно) до PI (исключительно).
@@ -190,7 +190,25 @@ fun bisectorByPoints(a: Point, b: Point): Line = TODO()
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var minLength = 10000000.0
+    var answerPair = Pair(circles[0], circles[1])
+    for (i in 0 until circles.size - 1) {
+        for (j in i + 1 until  circles.size) {
+            var ox = abs(circles[i].center.x - circles[j].center.x)
+            var oy = abs(circles[i].center.y - circles[j].center.y)
+            var length = sqrt(sqr(ox) + sqr(oy)) - circles[i].radius - circles[j].radius
+            if (length < minLength) {
+                minLength = length
+                var circle_1 = Circle(circles[i].center, circles[i].radius)
+                var circle_2 = Circle(circles[j].center, circles[j].radius)
+                answerPair = Pair(circle_1, circle_2)
+            }
+        }
+    }
+    return answerPair
+}
 
 /**
  * Сложная
